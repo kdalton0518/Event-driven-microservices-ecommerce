@@ -31,7 +31,7 @@ func CustomerSignup(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 	repo := database.NewInMemoryCustomerRepo(c)
-	hasher := encryption.NewCustomPasswordHasher()
+	hasher := encryption.NewBcryptPasswordHasher()
 	customerSignupService := application.NewCustomerSignupService(repo, hasher)
 
 	err = customerSignupService.Execute(body)

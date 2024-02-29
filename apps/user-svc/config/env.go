@@ -9,6 +9,7 @@ import (
 var (
 	PORT         string
 	DATABASE_URL string
+	JWT_SECRET   string
 )
 
 func LoadEnv() {
@@ -18,9 +19,11 @@ func LoadEnv() {
 	if err != nil {
 		PORT = os.Getenv("PORT")
 		DATABASE_URL = os.Getenv("DATABASE_URL")
+		JWT_SECRET = os.Getenv("JWT_SECRET")
 		return
 	}
 
 	PORT = viper.GetString("PORT")
 	DATABASE_URL = viper.GetString("DATABASE_URL")
+	JWT_SECRET = viper.GetString("JWT_SECRET")
 }

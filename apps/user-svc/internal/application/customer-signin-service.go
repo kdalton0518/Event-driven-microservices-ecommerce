@@ -32,10 +32,7 @@ func (s *CustomerSigninService) Execute(in *customer.SigninCustomerIn) (*custome
 		return nil, customer.ErrCustomerInvalidCredential
 	}
 
-	isPassValid, err := s.passwordHasher.Comapre(in.Password, cust.Password)
-	if err != nil {
-		return nil, err
-	}
+	isPassValid := s.passwordHasher.Compare(in.Password, cust.Password)
 	if !isPassValid {
 		return nil, customer.ErrCustomerInvalidCredential
 	}

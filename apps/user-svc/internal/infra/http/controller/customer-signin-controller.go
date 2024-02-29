@@ -31,8 +31,8 @@ func CustomerSignin(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 	repo := database.NewInMemoryCustomerRepo(c)
-	hasher := encryption.NewCustomPasswordHasher()
-	tkGen := encryption.NewCustomTokenGenerator()
+	hasher := encryption.NewBcryptPasswordHasher()
+	tkGen := encryption.NewJwtTokenGenerator()
 	customerSigninService := application.NewCustomerSigninService(repo, hasher, tkGen)
 
 	res, err := customerSigninService.Execute(body)

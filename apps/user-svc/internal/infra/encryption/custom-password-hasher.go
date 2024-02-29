@@ -15,6 +15,6 @@ func (p *CustomPasswordHasher) Hash(pass string) (string, error) {
 	return "hashed:" + pass, nil
 }
 
-func (p *CustomPasswordHasher) Comapre(passStr, hashedPass string) (bool, error) {
-	return passStr == strings.Split(hashedPass, ":")[1], nil
+func (p *CustomPasswordHasher) Compare(passStr, hashedPass string) bool {
+	return passStr == strings.Split(hashedPass, ":")[1]
 }
