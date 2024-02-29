@@ -8,15 +8,18 @@ import (
 type CustomerSigninService struct {
 	repo           customer.CustomerRepository
 	passwordHasher encryption.PasswordHasher
+	tokenGenerator encryption.TokenGenerator
 }
 
 func NewCustomerSigninService(
 	repo customer.CustomerRepository,
 	passwordHasher encryption.PasswordHasher,
+	tokenGenerator encryption.TokenGenerator,
 ) *CustomerSigninService {
 	return &CustomerSigninService{
 		repo:           repo,
 		passwordHasher: passwordHasher,
+		tokenGenerator: tokenGenerator,
 	}
 }
 
@@ -37,8 +40,13 @@ func (s *CustomerSigninService) Execute(in *customer.SigninCustomerIn) (*custome
 		return nil, customer.ErrCustomerInvalidCredential
 	}
 
+	accessToken, err := s.tokenGenerator.Generate(cust.ID)
+	if err != nil {
+		return nil, err
+	}
+
 	return &customer.SigninCustomerOut{
-		AccessToken: "token",
+		AccessToken: accessToken,
 		Customer: customer.CustomerOut{
 			ID:    cust.ID,
 			Name:  cust.Name,

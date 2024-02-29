@@ -32,7 +32,8 @@ func CustomerSignin(w http.ResponseWriter, r *http.Request) {
 	}
 	repo := database.NewInMemoryCustomerRepo(c)
 	hasher := encryption.NewCustomPasswordHasher()
-	customerSigninService := application.NewCustomerSigninService(repo, hasher)
+	tkGen := encryption.NewCustomTokenGenerator()
+	customerSigninService := application.NewCustomerSigninService(repo, hasher, tkGen)
 
 	res, err := customerSigninService.Execute(body)
 	if err != nil {
