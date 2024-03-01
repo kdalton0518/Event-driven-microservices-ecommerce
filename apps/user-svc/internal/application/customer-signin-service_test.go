@@ -20,8 +20,8 @@ func TestCustomerSignin(t *testing.T) {
 	}
 
 	repo := database.NewInMemoryCustomerRepo(c)
-	hasher := encryption.NewCustomPasswordHasher()
-	tkGen := encryption.NewCustomTokenGenerator()
+	hasher := encryption.NewStubPasswordHasher()
+	tkGen := encryption.NewStubTokenGenerator()
 	service := NewCustomerSigninService(repo, hasher, tkGen)
 
 	t.Run("customer not found", func(t *testing.T) {

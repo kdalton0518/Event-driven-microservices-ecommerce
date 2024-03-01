@@ -21,7 +21,7 @@ func TestCustomerSignup(t *testing.T) {
 	}
 
 	repo := database.NewInMemoryCustomerRepo(c)
-	hasher := encryption.NewCustomPasswordHasher()
+	hasher := encryption.NewStubPasswordHasher()
 	service := NewCustomerSignupService(repo, hasher)
 
 	t.Run("customer already exists", func(t *testing.T) {
