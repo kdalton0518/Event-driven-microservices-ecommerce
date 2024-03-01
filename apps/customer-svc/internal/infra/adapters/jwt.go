@@ -1,8 +1,8 @@
 package adapters
 
 import (
+	"customer-svc/config"
 	"time"
-	"user-svc/config"
 
 	"github.com/golang-jwt/jwt/v5"
 )

@@ -2,9 +2,9 @@ package database
 
 import (
 	"context"
+	"customer-svc/config"
 	"fmt"
 	"os"
-	"user-svc/config"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )

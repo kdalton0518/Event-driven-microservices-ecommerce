@@ -1,12 +1,12 @@
 package controller
 
 import (
+	"customer-svc/internal/application/usecases"
+	"customer-svc/internal/domain/customer"
+	"customer-svc/internal/infra/adapters"
+	"customer-svc/internal/infra/database"
+	"customer-svc/internal/infra/http/helper"
 	"net/http"
-	"user-svc/internal/application/usecases"
-	"user-svc/internal/domain/customer"
-	"user-svc/internal/infra/adapters"
-	"user-svc/internal/infra/database"
-	"user-svc/internal/infra/http/helper"
 )
 
 func CustomerSignin(w http.ResponseWriter, r *http.Request) {

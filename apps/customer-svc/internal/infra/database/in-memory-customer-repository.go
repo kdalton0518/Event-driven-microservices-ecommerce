@@ -1,7 +1,7 @@
 package database
 
 import (
-	"user-svc/internal/domain/customer"
+	"customer-svc/internal/domain/customer"
 )
 
 type InMemoryCustomerRepo struct {

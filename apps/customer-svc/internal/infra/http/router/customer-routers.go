@@ -1,8 +1,8 @@
 package router
 
 import (
+	"customer-svc/internal/infra/http/controller"
 	"net/http"
-	"user-svc/internal/infra/http/controller"
 )
 
 func setupCustomerRouters() {

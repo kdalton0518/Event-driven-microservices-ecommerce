@@ -1,9 +1,9 @@
 package usecases
 
 import (
+	"customer-svc/internal/domain/customer"
+	"customer-svc/internal/infra/database"
 	"testing"
-	"user-svc/internal/domain/customer"
-	"user-svc/internal/infra/database"
 
 	"github.com/stretchr/testify/assert"
 )

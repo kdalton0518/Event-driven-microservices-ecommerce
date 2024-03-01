@@ -1,12 +1,12 @@
 package controller
 
 import (
+	"customer-svc/internal/application/usecases"
+	"customer-svc/internal/domain/customer"
+	"customer-svc/internal/infra/database"
+	"customer-svc/internal/infra/http/helper"
 	"net/http"
 	"strings"
-	"user-svc/internal/application/usecases"
-	"user-svc/internal/domain/customer"
-	"user-svc/internal/infra/database"
-	"user-svc/internal/infra/http/helper"
 )
 
 func CustomerGet(w http.ResponseWriter, r *http.Request) {

@@ -2,15 +2,15 @@ package main
 
 import (
 	"context"
+	"customer-svc/config"
+	"customer-svc/internal/infra/database"
+	"customer-svc/internal/infra/http/router"
 	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
-	"user-svc/config"
-	"user-svc/internal/infra/database"
-	"user-svc/internal/infra/http/router"
 )
 
 func init() {

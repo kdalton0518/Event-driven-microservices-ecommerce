@@ -1,4 +1,4 @@
-module user-svc
+module customer-svc
 
 go 1.22.0
 

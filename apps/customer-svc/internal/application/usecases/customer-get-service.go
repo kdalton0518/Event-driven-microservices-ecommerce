@@ -1,6 +1,6 @@
 package usecases
 
-import "user-svc/internal/domain/customer"
+import "customer-svc/internal/domain/customer"
 
 type CustomerGetService struct {
 	repo customer.CustomerRepository

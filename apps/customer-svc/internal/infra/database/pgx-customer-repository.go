@@ -2,7 +2,7 @@ package database
 
 import (
 	"context"
-	"user-svc/internal/domain/customer"
+	"customer-svc/internal/domain/customer"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"

@@ -1,8 +1,8 @@
 package usecases
 
 import (
-	"user-svc/internal/application/contracts"
-	"user-svc/internal/domain/customer"
+	"customer-svc/internal/application/contracts"
+	"customer-svc/internal/domain/customer"
 )
 
 type CustomerSignupService struct {
