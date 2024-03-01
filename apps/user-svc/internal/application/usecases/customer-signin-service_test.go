@@ -1,10 +1,10 @@
-package application
+package usecases
 
 import (
 	"testing"
 	"user-svc/internal/domain/customer"
+	"user-svc/internal/infra/adapters"
 	"user-svc/internal/infra/database"
-	"user-svc/internal/infra/encryption"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -20,8 +20,8 @@ func TestCustomerSignin(t *testing.T) {
 	}
 
 	repo := database.NewInMemoryCustomerRepo(c)
-	hasher := encryption.NewStubPasswordHasher()
-	tkGen := encryption.NewStubTokenGenerator()
+	hasher := adapters.NewStubPasswordHasher()
+	tkGen := adapters.NewStubTokenGenerator()
 	service := NewCustomerSigninService(repo, hasher, tkGen)
 
 	t.Run("customer not found", func(t *testing.T) {

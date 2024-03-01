@@ -2,10 +2,10 @@ package controller
 
 import (
 	"net/http"
-	"user-svc/internal/application"
+	"user-svc/internal/application/usecases"
 	"user-svc/internal/domain/customer"
+	"user-svc/internal/infra/adapters"
 	"user-svc/internal/infra/database"
-	"user-svc/internal/infra/encryption"
 	"user-svc/internal/infra/http/helper"
 )
 
@@ -23,8 +23,8 @@ func CustomerSignup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	repo := database.NewPgxCustomerRepository(database.Conn)
-	hasher := encryption.NewBcryptPasswordHasher()
-	customerSignupService := application.NewCustomerSignupService(repo, hasher)
+	hasher := adapters.NewBcryptPasswordHasher()
+	customerSignupService := usecases.NewCustomerSignupService(repo, hasher)
 
 	err = customerSignupService.Execute(body)
 	if err != nil {

@@ -1,4 +1,4 @@
-package application
+package usecases
 
 import "user-svc/internal/domain/customer"
 

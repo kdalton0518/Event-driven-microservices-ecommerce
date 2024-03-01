@@ -2,10 +2,10 @@ package controller
 
 import (
 	"net/http"
-	"user-svc/internal/application"
+	"user-svc/internal/application/usecases"
 	"user-svc/internal/domain/customer"
+	"user-svc/internal/infra/adapters"
 	"user-svc/internal/infra/database"
-	"user-svc/internal/infra/encryption"
 	"user-svc/internal/infra/http/helper"
 )
 
@@ -23,9 +23,9 @@ func CustomerSignin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	repo := database.NewPgxCustomerRepository(database.Conn)
-	hasher := encryption.NewBcryptPasswordHasher()
-	tkGen := encryption.NewJwtTokenGenerator()
-	customerSigninService := application.NewCustomerSigninService(repo, hasher, tkGen)
+	hasher := adapters.NewBcryptPasswordHasher()
+	tkGen := adapters.NewJwtTokenGenerator()
+	customerSigninService := usecases.NewCustomerSigninService(repo, hasher, tkGen)
 
 	res, err := customerSigninService.Execute(body)
 	if err != nil {

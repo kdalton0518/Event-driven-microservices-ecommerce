@@ -1,18 +1,18 @@
-package application
+package usecases
 
 import (
+	"user-svc/internal/application/contracts"
 	"user-svc/internal/domain/customer"
-	"user-svc/internal/domain/encryption"
 )
 
 type CustomerSignupService struct {
 	repo           customer.CustomerRepository
-	passwordHasher encryption.PasswordHasher
+	passwordHasher contracts.PasswordHasher
 }
 
 func NewCustomerSignupService(
 	repo customer.CustomerRepository,
-	passwordHasher encryption.PasswordHasher,
+	passwordHasher contracts.PasswordHasher,
 ) *CustomerSignupService {
 	return &CustomerSignupService{
 		repo:           repo,

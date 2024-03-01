@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 	"strings"
-	"user-svc/internal/application"
+	"user-svc/internal/application/usecases"
 	"user-svc/internal/domain/customer"
 	"user-svc/internal/infra/database"
 	"user-svc/internal/infra/http/helper"
@@ -23,7 +23,7 @@ func CustomerGet(w http.ResponseWriter, r *http.Request) {
 	}
 
 	repo := database.NewPgxCustomerRepository(database.Conn)
-	customerGetService := application.NewCustomerGetService(repo)
+	customerGetService := usecases.NewCustomerGetService(repo)
 
 	res, err := customerGetService.Execute(token[1])
 	if err != nil {

@@ -1,4 +1,4 @@
-package encryption
+package adapters
 
 type StubTokenGenerator struct {
 }

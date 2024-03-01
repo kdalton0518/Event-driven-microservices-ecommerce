@@ -1,4 +1,4 @@
-package encryption
+package contracts
 
 type PasswordHasher interface {
 	Hash(string) (string, error)
