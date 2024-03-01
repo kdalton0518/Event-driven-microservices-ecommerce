@@ -9,16 +9,19 @@ import (
 	"syscall"
 	"time"
 	"user-svc/config"
+	"user-svc/internal/infra/database"
 	"user-svc/internal/infra/http/router"
 )
 
 func init() {
 	config.LoadEnv()
+	database.Connect()
 }
 
 func main() {
 	router.SetupRouters()
-	server := &http.Server{Addr: ":9001"}
+	port := ":" + config.PORT
+	server := &http.Server{Addr: port}
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil && http.ErrServerClosed != err {
@@ -26,7 +29,7 @@ func main() {
 		}
 	}()
 
-	fmt.Println("Server running at 9001...")
+	fmt.Printf("Server running at %s ...", port)
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGTERM, os.Interrupt, syscall.SIGINT)
 	<-stop

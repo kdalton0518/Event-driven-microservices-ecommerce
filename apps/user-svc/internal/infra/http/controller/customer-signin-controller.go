@@ -22,15 +22,7 @@ func CustomerSignin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c := []customer.Customer{
-		{
-			ID:       "existing_id",
-			Name:     "name",
-			Email:    "email@email.com",
-			Password: "hashed:my_pass",
-		},
-	}
-	repo := database.NewInMemoryCustomerRepo(c)
+	repo := database.NewPgxCustomerRepository(database.Conn)
 	hasher := encryption.NewBcryptPasswordHasher()
 	tkGen := encryption.NewJwtTokenGenerator()
 	customerSigninService := application.NewCustomerSigninService(repo, hasher, tkGen)

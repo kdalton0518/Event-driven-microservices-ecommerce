@@ -22,15 +22,7 @@ func CustomerGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c := []customer.Customer{
-		{
-			ID:       "existing_id",
-			Name:     "name",
-			Email:    "email@email.com",
-			Password: "hashed:my_pass",
-		},
-	}
-	repo := database.NewInMemoryCustomerRepo(c)
+	repo := database.NewPgxCustomerRepository(database.Conn)
 	customerGetService := application.NewCustomerGetService(repo)
 
 	res, err := customerGetService.Execute(token[1])

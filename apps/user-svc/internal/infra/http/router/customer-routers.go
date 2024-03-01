@@ -11,7 +11,6 @@ func setupCustomerRouters() {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			return
 		}
-
 		controller.CustomerSignin(w, r)
 	})
 
@@ -20,7 +19,6 @@ func setupCustomerRouters() {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			return
 		}
-
 		controller.CustomerSignup(w, r)
 	})
 
@@ -29,7 +27,6 @@ func setupCustomerRouters() {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			return
 		}
-
 		controller.CustomerGet(w, r)
 	})
 }
