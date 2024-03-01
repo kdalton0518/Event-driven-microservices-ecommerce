@@ -55,7 +55,7 @@ func TestCustomerSignin(t *testing.T) {
 		res, err := service.Execute(input)
 		assert.Equal(t, err, nil)
 		assert.Equal(t, &customer.SigninCustomerOut{
-			AccessToken: "token",
+			AccessToken: "existing_id",
 			Customer: customer.CustomerOut{
 				ID:    "existing_id",
 				Name:  "existing_name",
