@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option go_package = "github.com/buemura/event-driven-commerce/packages/grpc";
+
+message ProductResponse {
+    int32 id = 1;
+    string name = 2;
+    int64 price = 3;
+    int32 quantity = 4;
+    string image_url = 5;
+}
+
+message GetManyProductsRequest {}
+
+message GetManyProductsResponse {
+    repeated ProductResponse product_list = 1;
+}
+
+message GetProductRequest {
+    int32 id = 1;
+}
+
+service ProductService {
+    rpc GetManyProducts(GetManyProductsRequest) returns (GetManyProductsResponse);
+    rpc GetProduct(GetProductRequest) returns (ProductResponse);
+}
