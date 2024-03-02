@@ -2,15 +2,16 @@ package main
 
 import (
 	"context"
-	"customer-svc/config"
-	"customer-svc/internal/infra/database"
-	"customer-svc/internal/infra/http/router"
 	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/buemura/event-driven-commerce/customer-svc/config"
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/database"
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/http/router"
 )
 
 func init() {

@@ -1,10 +1,11 @@
 package usecases
 
 import (
-	"customer-svc/internal/domain/customer"
-	"customer-svc/internal/infra/adapters"
-	"customer-svc/internal/infra/database"
 	"testing"
+
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/domain/customer"
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/adapters"
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/database"
 
 	"github.com/stretchr/testify/assert"
 )

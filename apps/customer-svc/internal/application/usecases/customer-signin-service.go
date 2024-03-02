@@ -1,8 +1,8 @@
 package usecases
 
 import (
-	"customer-svc/internal/application/contracts"
-	"customer-svc/internal/domain/customer"
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/application/contracts"
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/domain/customer"
 )
 
 type CustomerSigninService struct {

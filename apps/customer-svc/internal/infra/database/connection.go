@@ -2,9 +2,10 @@ package database
 
 import (
 	"context"
-	"customer-svc/config"
 	"fmt"
 	"os"
+
+	"github.com/buemura/event-driven-commerce/customer-svc/config"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )

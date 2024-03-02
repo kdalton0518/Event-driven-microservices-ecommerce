@@ -1,6 +1,6 @@
 package usecases
 
-import "customer-svc/internal/domain/customer"
+import "github.com/buemura/event-driven-commerce/customer-svc/internal/domain/customer"
 
 type CustomerGetService struct {
 	repo customer.CustomerRepository

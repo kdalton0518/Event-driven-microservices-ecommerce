@@ -1,7 +1,7 @@
 package database
 
 import (
-	"customer-svc/internal/domain/customer"
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/domain/customer"
 )
 
 type InMemoryCustomerRepo struct {

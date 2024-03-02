@@ -1,12 +1,13 @@
 package controller
 
 import (
-	"customer-svc/internal/application/usecases"
-	"customer-svc/internal/domain/customer"
-	"customer-svc/internal/infra/database"
-	"customer-svc/internal/infra/http/helper"
 	"net/http"
 	"strings"
+
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/application/usecases"
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/domain/customer"
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/database"
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/http/helper"
 )
 
 func CustomerGet(w http.ResponseWriter, r *http.Request) {

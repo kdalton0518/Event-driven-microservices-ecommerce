@@ -1,10 +1,11 @@
 package helper
 
 import (
-	"customer-svc/internal/domain/customer"
 	"encoding/json"
 	"errors"
 	"net/http"
+
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/domain/customer"
 )
 
 var ErrBadRequest = errors.New("bad request")

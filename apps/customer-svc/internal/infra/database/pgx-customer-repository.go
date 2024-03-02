@@ -2,7 +2,8 @@ package database
 
 import (
 	"context"
-	"customer-svc/internal/domain/customer"
+
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/domain/customer"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"

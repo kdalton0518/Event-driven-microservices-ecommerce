@@ -1,8 +1,9 @@
 package router
 
 import (
-	"customer-svc/internal/infra/http/controller"
 	"net/http"
+
+	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/http/controller"
 )
 
 func setupCustomerRouters() {

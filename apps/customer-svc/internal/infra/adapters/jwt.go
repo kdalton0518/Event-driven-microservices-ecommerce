@@ -1,8 +1,9 @@
 package adapters
 
 import (
-	"customer-svc/config"
 	"time"
+
+	"github.com/buemura/event-driven-commerce/customer-svc/config"
 
 	"github.com/golang-jwt/jwt/v5"
 )

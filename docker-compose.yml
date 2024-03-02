@@ -1,7 +1,7 @@
 version: "3.5"
 
 networks:
-  delivery:
+  event_driven_commerce:
 
 services:
   db-customer:
@@ -10,11 +10,26 @@ services:
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
-      - POSTGRES_DB=ddbb
+      - POSTGRES_DB=customer_svc
     ports:
       - "5432:5432"
     volumes:
       - ./config/customer-init.sql:/docker-entrypoint-initdb.d/init.sql
     command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096
     networks:
-      - delivery
+      - event_driven_commerce
+
+  db-product:
+    image: postgres:latest
+    hostname: db-product
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=product_svc
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./config/product-init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096
+    networks:
+      - event_driven_commerce
