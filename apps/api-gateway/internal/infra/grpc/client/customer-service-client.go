@@ -8,10 +8,11 @@ import (
 	"github.com/buemura/event-driven-commerce/api-gateway/internal/modules/customer"
 	"github.com/buemura/event-driven-commerce/packages/pb"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func SignIn(in *customer.SignInRequest) (*customer.SignInResponse, error) {
-	conn, err := grpc.Dial(config.GRPC_HOST_CUSTOMER_SVC, grpc.WithInsecure())
+	conn, err := grpc.Dial(config.GRPC_HOST_CUSTOMER_SVC, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to dial customer-svc server: %v", err)
 	}
@@ -38,7 +39,7 @@ func SignIn(in *customer.SignInRequest) (*customer.SignInResponse, error) {
 }
 
 func SignUp(in *customer.SignUpRequest) (*customer.SignUpResponse, error) {
-	conn, err := grpc.Dial(config.GRPC_HOST_CUSTOMER_SVC, grpc.WithInsecure())
+	conn, err := grpc.Dial(config.GRPC_HOST_CUSTOMER_SVC, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to dial customer-svc server: %v", err)
 	}
@@ -58,7 +59,7 @@ func SignUp(in *customer.SignUpRequest) (*customer.SignUpResponse, error) {
 }
 
 func GetCustomer(id string) (*customer.Customer, error) {
-	conn, err := grpc.Dial(config.GRPC_HOST_CUSTOMER_SVC, grpc.WithInsecure())
+	conn, err := grpc.Dial(config.GRPC_HOST_CUSTOMER_SVC, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to dial customer-svc server: %v", err)
 	}

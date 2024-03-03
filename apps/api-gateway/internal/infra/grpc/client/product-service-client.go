@@ -9,10 +9,11 @@ import (
 	"github.com/buemura/event-driven-commerce/api-gateway/internal/shared"
 	"github.com/buemura/event-driven-commerce/packages/pb"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func GetProduct(id int) (*product.Product, error) {
-	conn, err := grpc.Dial(config.GRPC_HOST_PRODUCT_SVC, grpc.WithInsecure())
+	conn, err := grpc.Dial(config.GRPC_HOST_PRODUCT_SVC, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to dial server: %v", err)
 	}
@@ -39,7 +40,7 @@ func GetProduct(id int) (*product.Product, error) {
 }
 
 func GetManyProducts(in *product.GetManyProductsIn) (*product.GetManyProductsOut, error) {
-	conn, err := grpc.Dial(config.GRPC_HOST_PRODUCT_SVC, grpc.WithInsecure())
+	conn, err := grpc.Dial(config.GRPC_HOST_PRODUCT_SVC, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to dial server: %v", err)
 	}
