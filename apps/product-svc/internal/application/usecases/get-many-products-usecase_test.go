@@ -37,7 +37,10 @@ func TestGetManyProductsUsecase(t *testing.T) {
 	service := NewGetManyProductUsecase(repo)
 
 	t.Run("Return product slice", func(t *testing.T) {
-		res, _ := service.Execute()
+		res, _ := service.Execute(&product.GetManyProductsIn{
+			Page:  1,
+			Items: 10,
+		})
 		assert.Equal(t, p, res)
 	})
 }

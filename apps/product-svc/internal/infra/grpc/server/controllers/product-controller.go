@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/buemura/event-driven-commerce/product-svc/internal/application/usecases"
+	"github.com/buemura/event-driven-commerce/product-svc/internal/domain/product"
 	"github.com/buemura/event-driven-commerce/product-svc/internal/infra/database"
 	"github.com/buemura/event-driven-commerce/product-svc/internal/infra/grpc/server"
 	"google.golang.org/grpc/codes"
@@ -18,10 +19,21 @@ func (c ProductController) GetManyProducts(
 	ctx context.Context,
 	in *server.GetManyProductsRequest,
 ) (*server.GetManyProductsResponse, error) {
+	var page, items int = 1, 10
+	if in.Page != 0 {
+		page = int(in.Page)
+	}
+	if in.Items != 0 {
+		items = int(in.Items)
+	}
+
 	repo := database.NewPgxProductRepository(database.Conn)
 	usecase := usecases.NewGetManyProductUsecase(repo)
 
-	productList, err := usecase.Execute()
+	productList, err := usecase.Execute(&product.GetManyProductsIn{
+		Page:  page,
+		Items: items,
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -39,6 +51,12 @@ func (c ProductController) GetManyProducts(
 
 	return &server.GetManyProductsResponse{
 		ProductList: res,
+		Meta: &server.PaginationMeta{
+			Page:       int32(page),
+			Items:      int32(items),
+			TotalPages: 1,
+			TotalItems: 1,
+		},
 	}, nil
 
 }

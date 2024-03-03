@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/buemura/event-driven-commerce/packages/grpc";
+option go_package = "github.com/buemura/event-driven-commerce/packages/server";
 
 message ProductResponse {
     int32 id = 1;
@@ -10,10 +10,21 @@ message ProductResponse {
     string image_url = 5;
 }
 
-message GetManyProductsRequest {}
+message PaginationMeta {
+    int32 page = 1;
+    int32 items = 2;
+    int32 total_pages = 3;
+    int32 total_items = 4;
+}
+
+message GetManyProductsRequest {
+    int32 page = 1;
+    int32 items = 2;
+}
 
 message GetManyProductsResponse {
     repeated ProductResponse product_list = 1;
+    PaginationMeta meta = 2;    
 }
 
 message GetProductRequest {

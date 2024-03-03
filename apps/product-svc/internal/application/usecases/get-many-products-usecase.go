@@ -12,7 +12,7 @@ func NewGetManyProductUsecase(repo product.ProductRepository) *GetManyProductUse
 	}
 }
 
-func (uc *GetManyProductUsecase) Execute() ([]*product.Product, error) {
+func (uc *GetManyProductUsecase) Execute(opt *product.GetManyProductsIn) ([]*product.Product, error) {
 	prod, err := uc.repo.FindMany()
 	if err != nil {
 		return nil, err
