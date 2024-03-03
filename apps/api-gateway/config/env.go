@@ -7,9 +7,7 @@ import (
 )
 
 var (
-	PORT         string
-	DATABASE_URL string
-	JWT_SECRET   string
+	PORT string
 )
 
 func LoadEnv() {
