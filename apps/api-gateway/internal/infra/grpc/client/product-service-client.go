@@ -25,7 +25,7 @@ func GetProduct(id int) (*product.Product, error) {
 	request := &pb.GetProductRequest{Id: int32(id)}
 	prod, err := client.GetProduct(context.Background(), request)
 	if err != nil {
-		log.Fatalln("[GrpcClient][GetProduct] - Error:", err)
+		log.Println("[GrpcClient][GetProduct] - Error:", err)
 		return nil, err
 	}
 
@@ -51,7 +51,7 @@ func GetManyProducts(in *product.GetManyProductsIn) (*product.GetManyProductsOut
 	request := &pb.GetManyProductsRequest{Page: int32(in.Page), Items: int32(in.Items)}
 	res, err := client.GetManyProducts(context.Background(), request)
 	if err != nil {
-		log.Fatalln("[GrpcClient][GetManyProducts] - Error:", err)
+		log.Println("[GrpcClient][GetManyProducts] - Error:", err)
 		return nil, err
 	}
 
