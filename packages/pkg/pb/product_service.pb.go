@@ -4,7 +4,7 @@
 // 	protoc        v3.12.4
 // source: protos/product_service.proto
 
-package main
+package pb
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
