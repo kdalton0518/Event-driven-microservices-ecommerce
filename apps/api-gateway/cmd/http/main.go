@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -28,17 +28,17 @@ func main() {
 		}
 	}()
 
-	fmt.Printf("Server running at %s ...", port)
+	log.Println("Server running at", port, "...")
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGTERM, os.Interrupt, syscall.SIGINT)
 	<-stop
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	fmt.Println("Stopping...")
+	log.Println("Stopping...")
 
 	if err := server.Shutdown(ctx); err != nil {
 		panic(err)
 	}
-	fmt.Println("Server stopped")
+	log.Println("Server stopped")
 }

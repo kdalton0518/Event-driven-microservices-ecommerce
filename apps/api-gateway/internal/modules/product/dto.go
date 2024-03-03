@@ -5,11 +5,11 @@ import (
 )
 
 type GetManyProductsIn struct {
-	Page  int
-	Items int
+	Page  int `json:"page"`
+	Items int `json:"items"`
 }
 
 type GetManyProductsOut struct {
-	ProductList []*Product
-	Meta        *shared.PaginationMeta
+	ProductList []*Product             `json:"product_list"`
+	Meta        *shared.PaginationMeta `json:"meta"`
 }

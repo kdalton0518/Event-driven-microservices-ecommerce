@@ -1,8 +1,8 @@
 package shared
 
 type PaginationMeta struct {
-	Page       int
-	Items      int
-	TotalPages int
-	TotalItems int
+	Page       int `json:"page"`
+	Items      int `json:"items"`
+	TotalPages int `json:"total_pages"`
+	TotalItems int `json:"total_items"`
 }

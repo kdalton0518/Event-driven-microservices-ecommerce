@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"log"
 
 	"github.com/buemura/event-driven-commerce/packages/pb"
 	"github.com/buemura/event-driven-commerce/product-svc/internal/application/usecases"
@@ -20,6 +21,7 @@ func (c ProductController) GetManyProducts(
 	ctx context.Context,
 	in *pb.GetManyProductsRequest,
 ) (*pb.GetManyProductsResponse, error) {
+	log.Println("[GrpcServer][GetManyProducts] - Incoming request")
 	var page, items int = 1, 10
 	if in.Page != 0 {
 		page = int(in.Page)
@@ -36,7 +38,8 @@ func (c ProductController) GetManyProducts(
 		Items: items,
 	})
 	if err != nil {
-		return nil, err
+		log.Println("[GrpcServer][GetManyProducts] - Error:", err.Error())
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 
 	var productList []*pb.ProductResponse
@@ -65,7 +68,9 @@ func (c ProductController) GetProduct(
 	ctx context.Context,
 	in *pb.GetProductRequest,
 ) (*pb.ProductResponse, error) {
+	log.Println("[GrpcServer][GetProduct] - Incoming request for id:", in.Id)
 	if in.Id <= 0 {
+		log.Println("[GrpcServer][GetProduct] - Error: missing id parameter")
 		return nil, status.Error(codes.InvalidArgument, "missing id parameter")
 	}
 
@@ -74,7 +79,12 @@ func (c ProductController) GetProduct(
 
 	prod, err := usecase.Execute(int(in.Id))
 	if err != nil {
-		return nil, err
+		log.Println("[GrpcServer][GetProduct] - Error:", err.Error())
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+	if prod == nil {
+		log.Println("[GrpcServer][GetProduct] - Error: product not found")
+		return nil, status.Error(codes.NotFound, "product not found")
 	}
 
 	return &pb.ProductResponse{
