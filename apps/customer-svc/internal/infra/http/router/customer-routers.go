@@ -7,27 +7,7 @@ import (
 )
 
 func setupCustomerRouters() {
-	http.HandleFunc("/api/customer/signin", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != "POST" {
-			w.WriteHeader(http.StatusMethodNotAllowed)
-			return
-		}
-		controller.CustomerSignin(w, r)
-	})
-
-	http.HandleFunc("/api/customer/signup", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != "POST" {
-			w.WriteHeader(http.StatusMethodNotAllowed)
-			return
-		}
-		controller.CustomerSignup(w, r)
-	})
-
-	http.HandleFunc("/api/customer/me", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != "GET" {
-			w.WriteHeader(http.StatusMethodNotAllowed)
-			return
-		}
-		controller.CustomerGet(w, r)
-	})
+	http.HandleFunc("POST /api/customer/signin", controller.CustomerSignin)
+	http.HandleFunc("POST /api/customer/signup", controller.CustomerSignup)
+	http.HandleFunc("GET /api/customer/me", controller.CustomerGet)
 }
