@@ -6,6 +6,6 @@ type ProductRepositoryPaginatedOut struct {
 }
 
 type ProductRepository interface {
-	FindMany() (*ProductRepositoryPaginatedOut, error)
+	FindMany(*GetManyProductsIn) (*ProductRepositoryPaginatedOut, error)
 	FindById(int) (*Product, error)
 }

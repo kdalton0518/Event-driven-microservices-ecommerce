@@ -12,7 +12,7 @@ func NewInMemoryProductRepo(prod []*product.Product) *InMemoryProductRepo {
 	}
 }
 
-func (r *InMemoryProductRepo) FindMany() (*product.ProductRepositoryPaginatedOut, error) {
+func (r *InMemoryProductRepo) FindMany(in *product.GetManyProductsIn) (*product.ProductRepositoryPaginatedOut, error) {
 	return &product.ProductRepositoryPaginatedOut{
 		ProductList: r.prod,
 		TotalCount:  len(r.prod),

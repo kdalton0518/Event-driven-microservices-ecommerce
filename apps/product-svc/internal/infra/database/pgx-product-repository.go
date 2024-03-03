@@ -30,8 +30,11 @@ func (r *PgxProductRepository) FindById(id int) (*product.Product, error) {
 	return p[0], nil
 }
 
-func (r *PgxProductRepository) FindMany() (*product.ProductRepositoryPaginatedOut, error) {
-	rows, err := r.conn.Query(context.Background(), `SELECT * FROM product`)
+func (r *PgxProductRepository) FindMany(in *product.GetManyProductsIn) (*product.ProductRepositoryPaginatedOut, error) {
+	limit := in.Items
+	offset := (in.Page - 1) * in.Items
+
+	rows, err := r.conn.Query(context.Background(), `SELECT * FROM product LIMIT $1 OFFSET $2`, limit, offset)
 	p, err := pgx.CollectRows(rows, pgx.RowToAddrOfStructByPos[product.Product])
 	if err != nil {
 		return nil, err
