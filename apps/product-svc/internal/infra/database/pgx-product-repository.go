@@ -18,7 +18,7 @@ func NewPgxProductRepository(conn *pgxpool.Pool) *PgxProductRepository {
 	}
 }
 
-func (r *PgxProductRepository) FindById(id string) (*product.Product, error) {
+func (r *PgxProductRepository) FindById(id int) (*product.Product, error) {
 	rows, err := r.conn.Query(context.Background(), `SELECT * FROM product WHERE id = $1`, id)
 	p, err := pgx.CollectRows(rows, pgx.RowToAddrOfStructByPos[product.Product])
 	if err != nil {
