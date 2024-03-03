@@ -8,10 +8,11 @@ import (
 	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/adapters"
 	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/database"
 	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/http/helper"
+	"github.com/buemura/event-driven-commerce/packages/httphelper"
 )
 
 func CustomerSignin(w http.ResponseWriter, r *http.Request) {
-	body, err := helper.ParseRequestBody[customer.SigninCustomerIn](r)
+	body, err := httphelper.ParseRequestBody[customer.SigninCustomerIn](r)
 	if err != nil {
 		helper.HandleHttpError(w, err)
 		return
@@ -34,7 +35,7 @@ func CustomerSignin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	helper.HandleHttpSuccessJson(w, http.StatusOK, res)
+	httphelper.HandleHttpSuccessJson(w, http.StatusOK, res)
 }
 
 func validateSigninPayload(in *customer.SigninCustomerIn) error {

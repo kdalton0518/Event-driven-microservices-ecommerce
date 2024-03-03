@@ -8,6 +8,7 @@ import (
 	"github.com/buemura/event-driven-commerce/customer-svc/internal/domain/customer"
 	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/database"
 	"github.com/buemura/event-driven-commerce/customer-svc/internal/infra/http/helper"
+	"github.com/buemura/event-driven-commerce/packages/httphelper"
 )
 
 func CustomerGet(w http.ResponseWriter, r *http.Request) {
@@ -32,5 +33,5 @@ func CustomerGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	helper.HandleHttpSuccessJson(w, http.StatusOK, res)
+	httphelper.HandleHttpSuccessJson(w, http.StatusOK, res)
 }
