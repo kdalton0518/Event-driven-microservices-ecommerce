@@ -3,6 +3,7 @@ package usecases
 import (
 	"testing"
 
+	"github.com/buemura/event-driven-commerce/product-svc/internal/domain/common"
 	"github.com/buemura/event-driven-commerce/product-svc/internal/domain/product"
 	"github.com/buemura/event-driven-commerce/product-svc/internal/infra/database"
 	"github.com/stretchr/testify/assert"
@@ -41,6 +42,12 @@ func TestGetManyProductsUsecase(t *testing.T) {
 			Page:  1,
 			Items: 10,
 		})
-		assert.Equal(t, p, res)
+		assert.Equal(t, p, res.ProductList)
+		assert.Equal(t, &common.PaginationMeta{
+			Page:       1,
+			Items:      10,
+			TotalPages: 1,
+			TotalItems: len(res.ProductList),
+		}, res.Meta)
 	})
 }

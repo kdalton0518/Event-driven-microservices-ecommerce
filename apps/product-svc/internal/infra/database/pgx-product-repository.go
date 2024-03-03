@@ -30,11 +30,21 @@ func (r *PgxProductRepository) FindById(id int) (*product.Product, error) {
 	return p[0], nil
 }
 
-func (r *PgxProductRepository) FindMany() ([]*product.Product, error) {
+func (r *PgxProductRepository) FindMany() (*product.ProductRepositoryPaginatedOut, error) {
 	rows, err := r.conn.Query(context.Background(), `SELECT * FROM product`)
 	p, err := pgx.CollectRows(rows, pgx.RowToAddrOfStructByPos[product.Product])
 	if err != nil {
 		return nil, err
 	}
-	return p, nil
+
+	var totalCount int
+	err = r.conn.QueryRow(context.Background(), `SELECT count(id) as total_count FROM product`).Scan(&totalCount)
+	if err != nil {
+		return nil, err
+	}
+
+	return &product.ProductRepositoryPaginatedOut{
+		ProductList: p,
+		TotalCount:  totalCount,
+	}, nil
 }

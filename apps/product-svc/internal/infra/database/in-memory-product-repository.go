@@ -12,8 +12,11 @@ func NewInMemoryProductRepo(prod []*product.Product) *InMemoryProductRepo {
 	}
 }
 
-func (r *InMemoryProductRepo) FindMany() ([]*product.Product, error) {
-	return r.prod, nil
+func (r *InMemoryProductRepo) FindMany() (*product.ProductRepositoryPaginatedOut, error) {
+	return &product.ProductRepositoryPaginatedOut{
+		ProductList: r.prod,
+		TotalCount:  len(r.prod),
+	}, nil
 }
 
 func (r *InMemoryProductRepo) FindById(id int) (*product.Product, error) {

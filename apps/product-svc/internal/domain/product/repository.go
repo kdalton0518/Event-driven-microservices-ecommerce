@@ -1,6 +1,11 @@
 package product
 
+type ProductRepositoryPaginatedOut struct {
+	ProductList []*Product
+	TotalCount  int
+}
+
 type ProductRepository interface {
-	FindMany() ([]*Product, error)
+	FindMany() (*ProductRepositoryPaginatedOut, error)
 	FindById(int) (*Product, error)
 }

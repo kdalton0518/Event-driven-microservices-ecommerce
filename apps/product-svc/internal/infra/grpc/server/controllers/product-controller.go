@@ -30,7 +30,7 @@ func (c ProductController) GetManyProducts(
 	repo := database.NewPgxProductRepository(database.Conn)
 	usecase := usecases.NewGetManyProductUsecase(repo)
 
-	productList, err := usecase.Execute(&product.GetManyProductsIn{
+	res, err := usecase.Execute(&product.GetManyProductsIn{
 		Page:  page,
 		Items: items,
 	})
@@ -38,27 +38,26 @@ func (c ProductController) GetManyProducts(
 		return nil, err
 	}
 
-	var res []*server.ProductResponse
-	for _, v := range productList {
-		res = append(res, &server.ProductResponse{
-			Id:       int32(v.ID),
-			Name:     v.Name,
-			Price:    int64(v.Price),
-			Quantity: int32(v.Quantity),
-			ImageUrl: v.ImageUrl,
+	var productList []*server.ProductResponse
+	for _, p := range res.ProductList {
+		productList = append(productList, &server.ProductResponse{
+			Id:       int32(p.ID),
+			Name:     p.Name,
+			Price:    int64(p.Price),
+			Quantity: int32(p.Quantity),
+			ImageUrl: p.ImageUrl,
 		})
 	}
 
 	return &server.GetManyProductsResponse{
-		ProductList: res,
+		ProductList: productList,
 		Meta: &server.PaginationMeta{
-			Page:       int32(page),
-			Items:      int32(items),
-			TotalPages: 1,
-			TotalItems: 1,
+			Page:       int32(res.Meta.Page),
+			Items:      int32(res.Meta.Items),
+			TotalPages: int32(res.Meta.TotalPages),
+			TotalItems: int32(res.Meta.TotalItems),
 		},
 	}, nil
-
 }
 
 func (c ProductController) GetProduct(
