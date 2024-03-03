@@ -1,5 +1,5 @@
 # Event Driven Commerce
 
-## Architecutere Diagram
+## Architecture Diagram
 
 ![Diagram](docs/event-driven-commerce.png)
