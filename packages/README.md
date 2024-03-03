@@ -4,9 +4,9 @@
 
 ```bash
 protoc \
---go_out=grpc \
+--go_out=pb \
 --go_opt=paths=source_relative \
---go-grpc_out=grpc \
+--go-grpc_out=pb \
 --go-grpc_opt=paths=source_relative \
 protos/product_service.proto
 ```

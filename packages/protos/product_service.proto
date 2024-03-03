@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/buemura/event-driven-commerce/packages/server";
+option go_package = "github.com/buemura/event-driven-commerce/packages/pb";
 
 message ProductResponse {
     int32 id = 1;
