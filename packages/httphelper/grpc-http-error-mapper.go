@@ -18,10 +18,16 @@ func ParseGrpcToHttpError(w http.ResponseWriter, err error) {
 	if serr, ok := status.FromError(err); ok {
 		switch serr.Code() {
 		case codes.InvalidArgument:
-			w.WriteHeader(http.StatusBadRequest)
+			w.WriteHeader(http.StatusUnprocessableEntity)
 
 		case codes.NotFound:
 			w.WriteHeader(http.StatusNotFound)
+
+		case codes.AlreadyExists:
+			w.WriteHeader(http.StatusUnprocessableEntity)
+
+		case codes.PermissionDenied:
+			w.WriteHeader(http.StatusUnauthorized)
 
 		default:
 			w.WriteHeader(http.StatusInternalServerError)
