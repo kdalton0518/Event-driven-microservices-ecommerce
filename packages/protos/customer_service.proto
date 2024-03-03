@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option go_package = "github.com/buemura/event-driven-commerce/packages/pb";
+
+message Customer {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+}
+
+message SignInRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message SignInResponse {
+    string access_token = 1;
+    Customer customer = 2;
+}
+
+message SignUpRequest {
+    string name = 1;
+    string email = 2;
+    string password = 3;
+}
+
+message SignUpResponse {
+}
+
+message GetCustomerRequest {
+    string id = 1;
+}
+
+service CustomerService {
+    rpc SignIn(SignInRequest) returns (SignInResponse);
+    rpc SignUp(SignUpRequest) returns (SignUpResponse);
+    rpc GetCustomer(GetCustomerRequest) returns (Customer);
+}
