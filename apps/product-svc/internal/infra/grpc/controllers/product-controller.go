@@ -56,7 +56,7 @@ func (c ProductController) GetManyProducts(
 
 	return &pb.GetManyProductsResponse{
 		ProductList: productList,
-		Meta: &pb.PaginationMeta{
+		Meta: &pb.GetManyProductsResponse_PaginationMeta{
 			Page:       int32(res.Meta.Page),
 			Items:      int32(res.Meta.Items),
 			TotalPages: int32(res.Meta.TotalPages),
