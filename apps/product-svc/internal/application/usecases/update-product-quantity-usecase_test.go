@@ -49,4 +49,24 @@ func TestUpdateProductQuantityUsecase(t *testing.T) {
 			ImageUrl: "http://localhost:3131",
 		}, res)
 	})
+
+	t.Run("Return ErrProductInsufficientQuantity when product has no enough quantity", func(t *testing.T) {
+		_, err := service.Execute(&product.UpdateProductQuantityIn{
+			ID:       1,
+			Quantity: -15,
+		})
+
+		assert.Equal(t, err, product.ErrProductInsufficientQuantity)
+		assert.NotNil(t, err)
+	})
+
+	t.Run("Return ErrProductNotFound when product does not exists", func(t *testing.T) {
+		_, err := service.Execute(&product.UpdateProductQuantityIn{
+			ID:       99,
+			Quantity: -15,
+		})
+
+		assert.Equal(t, err, product.ErrProductNotFound)
+		assert.NotNil(t, err)
+	})
 }

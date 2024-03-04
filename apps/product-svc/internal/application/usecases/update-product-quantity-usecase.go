@@ -25,6 +25,10 @@ func (s *UpdateProductQuantityUsecase) Execute(in *product.UpdateProductQuantity
 
 	prod.Quantity += in.Quantity
 
+	if prod.Quantity < 0 {
+		return nil, product.ErrProductInsufficientQuantity
+	}
+
 	res, err := s.repo.Update(prod)
 	if err != nil {
 		return nil, err

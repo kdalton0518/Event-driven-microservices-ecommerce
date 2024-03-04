@@ -25,7 +25,10 @@ func HandleGrpcError(err error) error {
 		return status.Error(codes.InvalidArgument, err.Error())
 	case errors.Is(err, ErrInvalidArgument): // 3
 		return status.Error(codes.InvalidArgument, err.Error())
-	default: // 13
+	default: // pass code or 13
+		if serr, ok := status.FromError(err); ok {
+			return status.Error(serr.Code(), err.Error())
+		}
 		return status.Error(codes.Internal, err.Error())
 	}
 }
