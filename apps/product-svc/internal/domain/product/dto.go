@@ -11,3 +11,8 @@ type GetManyProductsOut struct {
 	ProductList []*Product
 	Meta        *common.PaginationMeta
 }
+
+type UpdateProductQuantityIn struct {
+	ID       int
+	Quantity int
+}

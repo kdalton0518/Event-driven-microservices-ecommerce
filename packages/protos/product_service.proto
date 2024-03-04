@@ -31,7 +31,13 @@ message GetProductRequest {
     int32 id = 1;
 }
 
+message UpdateProductQuantityRequest {
+    int32 id = 1;   
+    int32 quantity = 2;
+}
+
 service ProductService {
     rpc GetManyProducts(GetManyProductsRequest) returns (GetManyProductsResponse);
     rpc GetProduct(GetProductRequest) returns (ProductResponse);
+    rpc UpdateProductQuantity(UpdateProductQuantityRequest) returns (ProductResponse);
 }

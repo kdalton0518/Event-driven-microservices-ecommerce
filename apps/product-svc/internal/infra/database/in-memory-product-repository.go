@@ -29,3 +29,19 @@ func (r *InMemoryProductRepo) FindById(id int) (*product.Product, error) {
 	}
 	return p, nil
 }
+
+func (r *InMemoryProductRepo) Update(newP *product.Product) (*product.Product, error) {
+	var p *product.Product
+	for _, v := range r.prod {
+		if v.ID == newP.ID {
+			p = v
+			v = newP
+			break
+		}
+	}
+
+	if p == nil {
+		r.prod = append(r.prod, p)
+	}
+	return newP, nil
+}

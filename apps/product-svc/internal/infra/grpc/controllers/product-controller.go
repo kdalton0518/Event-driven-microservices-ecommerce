@@ -8,6 +8,7 @@ import (
 	"github.com/buemura/event-driven-commerce/product-svc/internal/application/usecases"
 	"github.com/buemura/event-driven-commerce/product-svc/internal/domain/product"
 	"github.com/buemura/event-driven-commerce/product-svc/internal/infra/database"
+	"github.com/buemura/event-driven-commerce/product-svc/internal/infra/grpc/helper"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -39,7 +40,7 @@ func (c ProductController) GetManyProducts(
 	})
 	if err != nil {
 		log.Println("[GrpcServer][GetManyProducts] - Error:", err.Error())
-		return nil, status.Error(codes.Internal, err.Error())
+		return nil, helper.HandleGrpcError(err)
 	}
 
 	var productList []*pb.ProductResponse
@@ -80,11 +81,38 @@ func (c ProductController) GetProduct(
 	prod, err := usecase.Execute(int(in.Id))
 	if err != nil {
 		log.Println("[GrpcServer][GetProduct] - Error:", err.Error())
-		return nil, status.Error(codes.Internal, err.Error())
+		return nil, helper.HandleGrpcError(err)
 	}
-	if prod == nil {
-		log.Println("[GrpcServer][GetProduct] - Error: product not found")
-		return nil, status.Error(codes.NotFound, "product not found")
+
+	return &pb.ProductResponse{
+		Id:       int32(prod.ID),
+		Name:     prod.Name,
+		Price:    int64(prod.Price),
+		Quantity: int32(prod.Quantity),
+		ImageUrl: prod.ImageUrl,
+	}, nil
+}
+
+func (c ProductController) UpdateProductQuantity(
+	ctx context.Context,
+	in *pb.UpdateProductQuantityRequest,
+) (*pb.ProductResponse, error) {
+	log.Println("[GrpcServer][UpdateProductQuantity] - Incoming request for id:", in.Id)
+	if in.Id <= 0 {
+		log.Println("[GrpcServer][UpdateProductQuantity] - Error: missing id parameter")
+		return nil, status.Error(codes.InvalidArgument, "missing id parameter")
+	}
+
+	repo := database.NewPgxProductRepository(database.Conn)
+	usecase := usecases.NewUpdateProductQuantityUsecase(repo)
+
+	prod, err := usecase.Execute(&product.UpdateProductQuantityIn{
+		ID:       int(in.Id),
+		Quantity: int(in.Quantity),
+	})
+	if err != nil {
+		log.Println("[GrpcServer][UpdateProductQuantity] - Error:", err.Error())
+		return nil, helper.HandleGrpcError(err)
 	}
 
 	return &pb.ProductResponse{

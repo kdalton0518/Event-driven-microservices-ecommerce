@@ -3,7 +3,7 @@ package helper
 import (
 	"errors"
 
-	"github.com/buemura/event-driven-commerce/customer-svc/internal/domain/customer"
+	"github.com/buemura/event-driven-commerce/product-svc/internal/domain/product"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -13,14 +13,8 @@ var ErrInvalidArgument = errors.New("invalid argument")
 
 func HandleGrpcError(err error) error {
 	switch {
-	case errors.Is(err, customer.ErrCustomerNotFound): // 5
+	case errors.Is(err, product.ErrProductNotFound): // 5
 		return status.Error(codes.NotFound, err.Error())
-	case errors.Is(err, customer.ErrCustomerInvalidCredential): // 7
-		return status.Error(codes.PermissionDenied, err.Error())
-	case errors.Is(err, customer.ErrCustomerAlreadyExists): // 6
-		return status.Error(codes.AlreadyExists, err.Error())
-	case errors.Is(err, customer.ErrCustomerPermissionDenied): // 7
-		return status.Error(codes.PermissionDenied, err.Error())
 	case errors.Is(err, ErrBadRequest): // 3
 		return status.Error(codes.InvalidArgument, err.Error())
 	case errors.Is(err, ErrInvalidArgument): // 3
@@ -28,4 +22,5 @@ func HandleGrpcError(err error) error {
 	default: // 13
 		return status.Error(codes.Internal, err.Error())
 	}
+
 }

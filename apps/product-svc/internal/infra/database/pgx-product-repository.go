@@ -51,3 +51,23 @@ func (r *PgxProductRepository) FindMany(in *product.GetManyProductsIn) (*product
 		TotalCount:  totalCount,
 	}, nil
 }
+
+func (r *PgxProductRepository) Update(newP *product.Product) (*product.Product, error) {
+	res, err := r.conn.Exec(
+		context.Background(),
+		`
+		UPDATE product 
+		SET name = $1, price = $2, quantity = $3, image_url = $4 
+		WHERE id = $5
+		`,
+		newP.Name, newP.Price, newP.Quantity, newP.ImageUrl, newP.ID,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	if res.RowsAffected() == 0 {
+		return nil, product.ErrProductNotFound
+	}
+	return newP, nil
+}

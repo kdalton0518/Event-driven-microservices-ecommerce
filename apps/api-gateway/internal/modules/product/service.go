@@ -10,8 +10,8 @@ func NewProductService(pApi ProductApi) *ProductService {
 	}
 }
 
-func (s *ProductService) GetManyProducts(opts GetManyProductsIn) (*GetManyProductsOut, error) {
-	return s.pApi.GetManyProducts(opts)
+func (s *ProductService) GetManyProducts(in GetManyProductsIn) (*GetManyProductsOut, error) {
+	return s.pApi.GetManyProducts(in)
 }
 
 func (s *ProductService) GetProduct(id int) (*Product, error) {

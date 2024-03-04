@@ -17,5 +17,8 @@ func (s *GetProductUsecase) Execute(id int) (*product.Product, error) {
 	if err != nil {
 		return nil, err
 	}
+	if prod == nil {
+		return nil, product.ErrProductNotFound
+	}
 	return prod, nil
 }

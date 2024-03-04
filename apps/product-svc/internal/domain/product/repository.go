@@ -8,4 +8,5 @@ type ProductRepositoryPaginatedOut struct {
 type ProductRepository interface {
 	FindMany(*GetManyProductsIn) (*ProductRepositoryPaginatedOut, error)
 	FindById(int) (*Product, error)
+	Update(*Product) (*Product, error)
 }
