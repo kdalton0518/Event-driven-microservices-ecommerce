@@ -26,6 +26,9 @@ func NewOrder(in *CreateOrderIn) (*Order, error) {
 	}
 
 	ids, totalPrice := parseProductAndCalculateTotalPrice(in)
+	if totalPrice == 0 {
+		return nil, ErrOrderMissingProduct
+	}
 
 	return &Order{
 		ID:            uuid.NewString(),
@@ -60,7 +63,7 @@ func parseProductAndCalculateTotalPrice(in *CreateOrderIn) ([]int, int) {
 	var total int
 	for _, p := range in.ProductList {
 		idList = append(idList, p.ID)
-		total += p.Price
+		total += (p.Price * p.Quantity)
 	}
 	return idList, total
 }

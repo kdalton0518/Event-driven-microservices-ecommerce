@@ -18,7 +18,7 @@ func OrderToGrpc(in *order.Order) *pb.OrderResponse {
 		TotalPrice:    int64(in.TotalPrice),
 		Status:        in.Status,
 		PaymentMethod: in.PaymentMethod,
-		CreatedAt:     in.CreatedAt.String(),
-		UpdatedAt:     in.UpdatedAt.String(),
+		CreatedAt:     in.CreatedAt.Format("2006-01-02T15:04:05.000Z"),
+		UpdatedAt:     in.UpdatedAt.Format("2006-01-02T15:04:05.000Z"),
 	}
 }
