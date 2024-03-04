@@ -1,6 +1,8 @@
 package usecases
 
-import "github.com/buemura/event-driven-commerce/product-svc/internal/domain/product"
+import (
+	"github.com/buemura/event-driven-commerce/product-svc/internal/domain/product"
+)
 
 type UpdateProductQuantityUsecase struct {
 	repo product.ProductRepository

@@ -6,6 +6,8 @@ import (
 
 	"github.com/buemura/event-driven-commerce/order-svc/config"
 	"github.com/buemura/event-driven-commerce/order-svc/internal/infra/database"
+	"github.com/buemura/event-driven-commerce/order-svc/internal/infra/grpc/server/controllers"
+	"github.com/buemura/event-driven-commerce/packages/pb"
 	"google.golang.org/grpc"
 )
 
@@ -22,7 +24,7 @@ func main() {
 	}
 
 	s := grpc.NewServer()
-	pb.RegisterProductServiceServer(s, &controllers.ProductController{})
+	pb.RegisterOrderServiceServer(s, &controllers.OrderController{})
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to server grpc: %s", err)
 	}

@@ -1,12 +1,14 @@
 package order
 
-import "github.com/buemura/event-driven-commerce/order-svc/internal/domain/common"
+import (
+	"github.com/buemura/event-driven-commerce/order-svc/internal/domain/common"
+	"github.com/buemura/event-driven-commerce/order-svc/internal/domain/product"
+)
 
 type CreateOrderIn struct {
 	CustomerId    string
-	ProductIdList []int
-	TotalPrice    int
-	Status        string
+	ProductList   []*product.Product
+	PaymentMethod string
 }
 
 type GetManyOrdersIn struct {
@@ -14,7 +16,7 @@ type GetManyOrdersIn struct {
 	Items int
 }
 
-type GetManyProductsOut struct {
+type GetManyOrdersOut struct {
 	OrderList []*Order
 	Meta      *common.PaginationMeta
 }

@@ -33,3 +33,18 @@ services:
     command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096
     networks:
       - event_driven_commerce
+
+  db-order:
+    image: postgres:latest
+    hostname: db-order
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=order_svc
+    ports:
+      - "25432:5432"
+    volumes:
+      - ./config/order-init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096
+    networks:
+      - event_driven_commerce

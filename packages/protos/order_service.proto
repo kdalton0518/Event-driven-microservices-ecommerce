@@ -8,8 +8,9 @@ message OrderResponse {
     repeated int32 product_id_list = 3;
     int64 total_price = 4;
     string status = 5;
-    string created_at = 6;
-    string updated_at = 7;
+    string payment_method = 6;
+    string created_at = 7;
+    string updated_at = 8;
 }
 
 message GetManyOrdersRequest {
@@ -30,10 +31,25 @@ message GetManyOrdersResponse {
 }
 
 message GetOrderRequest {
-    int32 id = 1;
+    string id = 1;
+}
+
+message CreateOrderRequest {
+    message Product {
+        int32 id = 1;
+        string name = 2;
+	    int32 price = 3;
+	    int32 quantity = 4;
+	    string image_url = 5;
+    }
+    
+    string customer_id = 1;
+    repeated Product product_list = 2;
+    string payment_method = 3;
 }
 
 service OrderService {
-    rpc GetManyProducts(GetManyOrdersRequest) returns (GetManyOrdersResponse);
-    rpc GetProduct(GetOrderRequest) returns (OrderResponse);
+    rpc GetManyOrders(GetManyOrdersRequest) returns (GetManyOrdersResponse);
+    rpc GetOrder(GetOrderRequest) returns (OrderResponse);
+    rpc CreateOrder(CreateOrderRequest) returns (OrderResponse);
 }
