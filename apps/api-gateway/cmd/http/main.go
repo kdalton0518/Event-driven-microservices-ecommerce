@@ -28,17 +28,17 @@ func main() {
 		}
 	}()
 
-	log.Println("Server running at", port, "...")
+	log.Println("HTTP Server running at", port, "...")
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGTERM, os.Interrupt, syscall.SIGINT)
 	<-stop
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	log.Println("Stopping...")
+	log.Println("Stopping HTTP Server...")
 
 	if err := server.Shutdown(ctx); err != nil {
 		panic(err)
 	}
-	log.Println("Server stopped")
+	log.Println("HTTP Server stopped")
 }
