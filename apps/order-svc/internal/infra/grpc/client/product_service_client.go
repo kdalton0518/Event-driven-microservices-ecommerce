@@ -38,10 +38,8 @@ func (c *ProductServiceClient) GetProduct(id int) (*product.Product, error) {
 
 	return &product.Product{
 		ID:       int(prod.Id),
-		Name:     prod.Name,
 		Price:    int(prod.Price),
 		Quantity: int(prod.Quantity),
-		ImageUrl: prod.ImageUrl,
 	}, nil
 }
 
@@ -65,9 +63,7 @@ func (c *ProductServiceClient) UpdateProductQuantity(id, quantity int) (*product
 
 	return &product.Product{
 		ID:       int(prod.Id),
-		Name:     prod.Name,
 		Price:    int(prod.Price),
 		Quantity: int(prod.Quantity),
-		ImageUrl: prod.ImageUrl,
 	}, nil
 }

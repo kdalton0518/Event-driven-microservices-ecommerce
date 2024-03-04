@@ -103,10 +103,8 @@ func (c OrderController) CreateOrder(
 	for _, p := range in.ProductList {
 		productList = append(productList, &product.Product{
 			ID:       int(p.Id),
-			Name:     p.Name,
 			Price:    int(p.Price),
 			Quantity: int(p.Quantity),
-			ImageUrl: p.ImageUrl,
 		})
 	}
 
