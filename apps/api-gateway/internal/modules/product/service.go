@@ -10,7 +10,7 @@ func NewProductService(pApi ProductApi) *ProductService {
 	}
 }
 
-func (s *ProductService) GetManyProducts(in GetManyProductsIn) (*GetManyProductsOut, error) {
+func (s *ProductService) GetManyProducts(in *GetManyProductsIn) (*GetManyProductsOut, error) {
 	return s.pApi.GetManyProducts(in)
 }
 

@@ -11,7 +11,13 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func SignIn(in *customer.SignInRequest) (*customer.SignInResponse, error) {
+type CustomerGrpcService struct{}
+
+func NewCustomerGrpcService() *CustomerGrpcService {
+	return &CustomerGrpcService{}
+}
+
+func (*CustomerGrpcService) SignIn(in *customer.SignInRequest) (*customer.SignInResponse, error) {
 	conn, err := grpc.Dial(config.GRPC_HOST_CUSTOMER_SVC, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to dial customer-svc server: %v", err)
@@ -38,7 +44,7 @@ func SignIn(in *customer.SignInRequest) (*customer.SignInResponse, error) {
 	}, nil
 }
 
-func SignUp(in *customer.SignUpRequest) (*customer.SignUpResponse, error) {
+func (*CustomerGrpcService) SignUp(in *customer.SignUpRequest) (*customer.SignUpResponse, error) {
 	conn, err := grpc.Dial(config.GRPC_HOST_CUSTOMER_SVC, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to dial customer-svc server: %v", err)
@@ -58,7 +64,7 @@ func SignUp(in *customer.SignUpRequest) (*customer.SignUpResponse, error) {
 	return nil, nil
 }
 
-func GetCustomer(id string) (*customer.Customer, error) {
+func (*CustomerGrpcService) GetCustomer(id string) (*customer.Customer, error) {
 	conn, err := grpc.Dial(config.GRPC_HOST_CUSTOMER_SVC, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to dial customer-svc server: %v", err)

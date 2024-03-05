@@ -4,11 +4,35 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/buemura/event-driven-commerce/api-gateway/internal/infra/grpc/client"
+	"github.com/buemura/event-driven-commerce/api-gateway/internal/infra/factory"
 	"github.com/buemura/event-driven-commerce/api-gateway/internal/infra/http/helper"
 	"github.com/buemura/event-driven-commerce/api-gateway/internal/modules/customer"
 	"github.com/buemura/event-driven-commerce/packages/httphelper"
 )
+
+func GetCustomer(w http.ResponseWriter, r *http.Request) {
+	authorization := r.Header["Authorization"]
+	if len(authorization) == 0 {
+		helper.HandleHttpError(w, customer.ErrCustomerPermissionDenied)
+		return
+	}
+
+	token := strings.Split(authorization[0], " ")
+	if len(token) != 2 || token[0] != "Bearer" || token[1] == "" {
+		helper.HandleHttpError(w, customer.ErrCustomerPermissionDenied)
+		return
+	}
+
+	// TODO: Parse token to get sub
+
+	service := factory.MakeCustomerDomainService()
+	res, err := service.GetCustomer("")
+	if err != nil {
+		httphelper.ParseGrpcToHttpError(w, err)
+		return
+	}
+	httphelper.HandleHttpSuccessJson(w, http.StatusCreated, res)
+}
 
 func SignIn(w http.ResponseWriter, r *http.Request) {
 	body, err := httphelper.ParseRequestBody[customer.SignInRequest](r)
@@ -22,7 +46,8 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		helper.HandleHttpError(w, err)
 		return
 	}
-	res, err := client.SignIn(body)
+	service := factory.MakeCustomerDomainService()
+	res, err := service.SignIn(body)
 	if err != nil {
 		httphelper.ParseGrpcToHttpError(w, err)
 		return
@@ -43,30 +68,8 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := client.SignUp(body)
-	if err != nil {
-		httphelper.ParseGrpcToHttpError(w, err)
-		return
-	}
-	httphelper.HandleHttpSuccessJson(w, http.StatusCreated, res)
-}
-
-func GetCustomer(w http.ResponseWriter, r *http.Request) {
-	authorization := r.Header["Authorization"]
-	if len(authorization) == 0 {
-		helper.HandleHttpError(w, customer.ErrCustomerPermissionDenied)
-		return
-	}
-
-	token := strings.Split(authorization[0], " ")
-	if len(token) != 2 || token[0] != "Bearer" || token[1] == "" {
-		helper.HandleHttpError(w, customer.ErrCustomerPermissionDenied)
-		return
-	}
-
-	// TODO: Parse token to get sub
-
-	res, err := client.GetCustomer("")
+	service := factory.MakeCustomerDomainService()
+	res, err := service.SignUp(body)
 	if err != nil {
 		httphelper.ParseGrpcToHttpError(w, err)
 		return

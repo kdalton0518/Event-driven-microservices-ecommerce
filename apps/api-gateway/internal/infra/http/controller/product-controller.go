@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/buemura/event-driven-commerce/api-gateway/internal/infra/grpc/client"
+	"github.com/buemura/event-driven-commerce/api-gateway/internal/infra/factory"
 	"github.com/buemura/event-driven-commerce/api-gateway/internal/modules/product"
 	"github.com/buemura/event-driven-commerce/packages/httphelper"
 )
@@ -15,7 +15,8 @@ func GetManyProducts(w http.ResponseWriter, r *http.Request) {
 	page, _ := strconv.Atoi(q.Get("page"))
 	items, _ := strconv.Atoi(q.Get("items"))
 
-	res, err := client.GetManyProducts(&product.GetManyProductsIn{
+	service := factory.MakeProductDomainService()
+	res, err := service.GetManyProducts(&product.GetManyProductsIn{
 		Page:  page,
 		Items: items,
 	})
@@ -30,7 +31,8 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 
 	id, _ := strconv.Atoi(idStr)
-	res, err := client.GetProduct(id)
+	service := factory.MakeProductDomainService()
+	res, err := service.GetProduct(id)
 	if err != nil {
 		httphelper.ParseGrpcToHttpError(w, err)
 		return

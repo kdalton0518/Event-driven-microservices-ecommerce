@@ -12,7 +12,13 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func GetProduct(id int) (*product.Product, error) {
+type ProductGrpcService struct{}
+
+func NewProductGrpcService() *ProductGrpcService {
+	return &ProductGrpcService{}
+}
+
+func (*ProductGrpcService) GetProduct(id int) (*product.Product, error) {
 	conn, err := grpc.Dial(config.GRPC_HOST_PRODUCT_SVC, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to dial server: %v", err)
@@ -39,7 +45,7 @@ func GetProduct(id int) (*product.Product, error) {
 	}, nil
 }
 
-func GetManyProducts(in *product.GetManyProductsIn) (*product.GetManyProductsOut, error) {
+func (*ProductGrpcService) GetManyProducts(in *product.GetManyProductsIn) (*product.GetManyProductsOut, error) {
 	conn, err := grpc.Dial(config.GRPC_HOST_PRODUCT_SVC, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to dial server: %v", err)

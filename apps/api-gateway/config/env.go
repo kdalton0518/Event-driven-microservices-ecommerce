@@ -10,6 +10,7 @@ var (
 	PORT                   string
 	GRPC_HOST_PRODUCT_SVC  string
 	GRPC_HOST_CUSTOMER_SVC string
+	GRPC_HOST_ORDER_SVC    string
 )
 
 func LoadEnv() {
@@ -20,10 +21,12 @@ func LoadEnv() {
 		PORT = os.Getenv("PORT")
 		GRPC_HOST_PRODUCT_SVC = os.Getenv("GRPC_HOST_PRODUCT_SVC")
 		GRPC_HOST_CUSTOMER_SVC = os.Getenv("GRPC_HOST_CUSTOMER_SVC")
+		GRPC_HOST_ORDER_SVC = os.Getenv("GRPC_HOST_ORDER_SVC")
 		return
 	}
 
 	PORT = viper.GetString("PORT")
 	GRPC_HOST_PRODUCT_SVC = viper.GetString("GRPC_HOST_PRODUCT_SVC")
 	GRPC_HOST_CUSTOMER_SVC = viper.GetString("GRPC_HOST_CUSTOMER_SVC")
+	GRPC_HOST_ORDER_SVC = viper.GetString("GRPC_HOST_ORDER_SVC")
 }

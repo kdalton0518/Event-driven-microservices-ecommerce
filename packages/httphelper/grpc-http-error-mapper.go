@@ -29,6 +29,9 @@ func ParseGrpcToHttpError(w http.ResponseWriter, err error) {
 		case codes.PermissionDenied:
 			w.WriteHeader(http.StatusUnauthorized)
 
+		case codes.FailedPrecondition:
+			w.WriteHeader(http.StatusUnprocessableEntity)
+
 		default:
 			w.WriteHeader(http.StatusInternalServerError)
 		}
