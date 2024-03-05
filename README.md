@@ -2,4 +2,4 @@
 
 ## Architecture Diagram
 
-![Diagram](docs/event-driven-commerce.png)
+![Diagram](docs/event-driven-commerce.svg)
