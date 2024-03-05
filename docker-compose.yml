@@ -14,7 +14,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./config/customer-init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./configs/customer-init.sql:/docker-entrypoint-initdb.d/init.sql
     command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096
     networks:
       - event_driven_commerce
@@ -29,7 +29,7 @@ services:
     ports:
       - "15432:5432"
     volumes:
-      - ./config/product-init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./configs/product-init.sql:/docker-entrypoint-initdb.d/init.sql
     command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096
     networks:
       - event_driven_commerce
@@ -44,7 +44,67 @@ services:
     ports:
       - "25432:5432"
     volumes:
-      - ./config/order-init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./configs/order-init.sql:/docker-entrypoint-initdb.d/init.sql
     command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096
+    networks:
+      - event_driven_commerce
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ./apps/api-gateway/Dockerfile
+    hostname: api-gateway
+    environment:
+      - PORT=8080
+      - GRPC_HOST_PRODUCT_SVC=product-svc:50050
+      - GRPC_HOST_CUSTOMER_SVC=customer-svc:50051
+      - GRPC_HOST_ORDER_SVC=order-svc:50052
+    depends_on:
+      - product-svc
+      - customer-svc
+      - order-svc
+    ports:
+      - "8080:8080"
+    networks:
+      - event_driven_commerce
+
+  customer-svc:
+    build:
+      context: .
+      dockerfile: ./apps/customer-svc/Dockerfile
+    hostname: customer-svc
+    environment:
+      - GRPC_PORT=50051
+      - DATABASE_URL=postgresql://admin:admin@db-customer:5432/customer_svc
+      - JWT_SECRET="COFFEE_BLEND"
+    depends_on:
+      - db-customer
+    networks:
+      - event_driven_commerce
+
+  product-svc:
+    build:
+      context: .
+      dockerfile: ./apps/product-svc/Dockerfile
+    hostname: product-svc
+    environment:
+      - GRPC_PORT=50050
+      - DATABASE_URL=postgresql://admin:admin@db-product:5432/product_svc
+    depends_on:
+      - db-product
+    networks:
+      - event_driven_commerce
+
+  order-svc:
+    build:
+      context: .
+      dockerfile: ./apps/order-svc/Dockerfile
+    hostname: order-svc
+    environment:
+      - GRPC_PORT=50052
+      - DATABASE_URL=postgresql://admin:admin@db-order:5432/order_svc
+    depends_on:
+      - db-order
+      - product-svc
     networks:
       - event_driven_commerce
