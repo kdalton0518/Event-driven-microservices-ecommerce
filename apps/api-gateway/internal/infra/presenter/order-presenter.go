@@ -9,9 +9,13 @@ import (
 )
 
 func GrpcToDomainOrder(in *pb.OrderResponse) *order.Order {
-	var productIdList []int
-	for _, id := range in.ProductIdList {
-		productIdList = append(productIdList, int(id))
+	var productList []*order.OrderProduct
+	for _, p := range in.ProductList {
+		productList = append(productList, &order.OrderProduct{
+			Id:       int(p.Id),
+			Price:    int(p.Price),
+			Quantity: int(p.Quantity),
+		})
 	}
 
 	createdAt, _ := time.Parse("2006-01-02T15:04:05.000Z", in.CreatedAt)
@@ -20,7 +24,7 @@ func GrpcToDomainOrder(in *pb.OrderResponse) *order.Order {
 	return &order.Order{
 		ID:            in.Id,
 		CustomerId:    in.CustomerId,
-		ProductIdList: productIdList,
+		ProductList:   productList,
 		TotalPrice:    int(in.TotalPrice),
 		Status:        in.Status,
 		PaymentMethod: in.PaymentMethod,

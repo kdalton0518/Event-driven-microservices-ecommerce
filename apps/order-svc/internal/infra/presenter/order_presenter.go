@@ -6,15 +6,19 @@ import (
 )
 
 func OrderToGrpc(in *order.Order) *pb.OrderResponse {
-	var productIdList []int32
-	for _, id := range in.ProductIdList {
-		productIdList = append(productIdList, int32(id))
+	var productList []*pb.OrderResponse_OrderProduct
+	for _, p := range in.ProductList {
+		productList = append(productList, &pb.OrderResponse_OrderProduct{
+			Id:       int32(p.ID),
+			Price:    int32(p.Price),
+			Quantity: int32(p.Quantity),
+		})
 	}
 
 	return &pb.OrderResponse{
 		Id:            in.ID,
 		CustomerId:    in.CustomerId,
-		ProductIdList: productIdList,
+		ProductList:   productList,
 		TotalPrice:    int64(in.TotalPrice),
 		Status:        in.Status,
 		PaymentMethod: in.PaymentMethod,

@@ -3,6 +3,7 @@ package order
 import (
 	"time"
 
+	"github.com/buemura/event-driven-commerce/order-svc/internal/domain/product"
 	"github.com/google/uuid"
 )
 
@@ -11,7 +12,7 @@ var WaitingPaymentStatus = "WAITING_PAYMENT"
 type Order struct {
 	ID            string
 	CustomerId    string
-	ProductIdList []int
+	ProductList   []*product.Product
 	TotalPrice    int
 	Status        string
 	PaymentMethod string
@@ -25,7 +26,7 @@ func NewOrder(in *CreateOrderIn) (*Order, error) {
 		return nil, err
 	}
 
-	ids, totalPrice := parseProductAndCalculateTotalPrice(in)
+	totalPrice := calculateTotalPrice(in)
 	if totalPrice == 0 {
 		return nil, ErrOrderMissingProduct
 	}
@@ -33,7 +34,7 @@ func NewOrder(in *CreateOrderIn) (*Order, error) {
 	return &Order{
 		ID:            uuid.NewString(),
 		CustomerId:    in.CustomerId,
-		ProductIdList: ids,
+		ProductList:   in.ProductList,
 		TotalPrice:    totalPrice,
 		Status:        WaitingPaymentStatus,
 		PaymentMethod: in.PaymentMethod,
@@ -46,24 +47,19 @@ func validate(in *CreateOrderIn) error {
 	if len(in.ProductList) == 0 {
 		return ErrOrderMissingProduct
 	}
-
 	if in.CustomerId == "" {
 		return ErrOrderMissingCustomer
 	}
-
 	if in.PaymentMethod == "" {
 		return ErrOrderMissingPaymentMethod
 	}
-
 	return nil
 }
 
-func parseProductAndCalculateTotalPrice(in *CreateOrderIn) ([]int, int) {
-	var idList []int
+func calculateTotalPrice(in *CreateOrderIn) int {
 	var total int
 	for _, p := range in.ProductList {
-		idList = append(idList, p.ID)
 		total += (p.Price * p.Quantity)
 	}
-	return idList, total
+	return total
 }

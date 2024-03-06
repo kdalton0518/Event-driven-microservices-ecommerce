@@ -20,3 +20,9 @@ type GetManyOrdersOut struct {
 	OrderList []*Order               `json:"order_list"`
 	Meta      *shared.PaginationMeta `json:"meta"`
 }
+
+type OrderProduct struct {
+	Id       int `json:"id"`
+	Price    int `json:"price"`
+	Quantity int `json:"quantity"`
+}
