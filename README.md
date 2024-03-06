@@ -3,7 +3,7 @@
 ## Overview
 
 - An ecommerce application built applying concepts of distributed systems, microservices and event-driven architecture.
-- The `api-gateway` serves REST endpoints to the `web-ui`, and internally performs gRPC calls to all others microservices. Additionally, there is an async communication flow for order payement where `order-svc` sends a message to RabbitMQ and `payment-svc` process it asynchronously.
+- The `api-gtw` serves REST endpoints to the `web-ui`, and internally performs gRPC calls to all others microservices. Additionally, there is an async communication flow for order payement where `order-svc` sends a message to RabbitMQ and `payment-svc` process it asynchronously.
 
 ## Architecture Diagram
 

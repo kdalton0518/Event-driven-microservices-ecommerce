@@ -49,11 +49,11 @@ services:
     networks:
       - event_driven_commerce
 
-  api-gateway:
+  api-gtw:
     build:
       context: .
-      dockerfile: ./apps/api-gateway/Dockerfile
-    hostname: api-gateway
+      dockerfile: ./apps/api-gtw/Dockerfile
+    hostname: api-gtw
     environment:
       - PORT=8080
       - GRPC_HOST_PRODUCT_SVC=product-svc:50050
@@ -102,6 +102,7 @@ services:
     hostname: order-svc
     environment:
       - GRPC_PORT=50052
+      - GRPC_HOST_PRODUCT_SVC=product-svc:50050
       - DATABASE_URL=postgresql://admin:admin@db-order:5432/order_svc
     depends_on:
       - db-order
