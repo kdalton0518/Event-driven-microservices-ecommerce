@@ -2,7 +2,9 @@ package order
 
 import "errors"
 
-var ErrOrderNotFound = errors.New("order not found")
-var ErrOrderMissingCustomer = errors.New("order has no customer")
-var ErrOrderMissingProduct = errors.New("order has no product")
-var ErrOrderMissingPaymentMethod = errors.New("order has no payment method")
+var (
+	ErrOrderNotFound             = errors.New("order not found")
+	ErrOrderMissingCustomer      = errors.New("order has no customer")
+	ErrOrderMissingProduct       = errors.New("order has no product")
+	ErrOrderMissingPaymentMethod = errors.New("order has no payment method")
+)

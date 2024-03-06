@@ -5,7 +5,7 @@ import (
 	"github.com/buemura/event-driven-commerce/packages/pb"
 )
 
-func OrderToGrpc(in *order.Order) *pb.OrderResponse {
+func DomainOrderToGrpc(in *order.Order) *pb.OrderResponse {
 	var productList []*pb.OrderResponse_OrderProduct
 	for _, p := range in.ProductList {
 		productList = append(productList, &pb.OrderResponse_OrderProduct{

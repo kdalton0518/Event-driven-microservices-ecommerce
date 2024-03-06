@@ -8,7 +8,7 @@ import (
 	"github.com/buemura/event-driven-commerce/order-svc/internal/domain/product"
 	"github.com/buemura/event-driven-commerce/order-svc/internal/infra/factory"
 	"github.com/buemura/event-driven-commerce/order-svc/internal/infra/grpc/server/helper"
-	"github.com/buemura/event-driven-commerce/order-svc/internal/infra/presenter"
+	"github.com/buemura/event-driven-commerce/order-svc/internal/presenter"
 	"github.com/buemura/event-driven-commerce/packages/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -44,7 +44,7 @@ func (c OrderController) GetManyOrders(
 
 	var orderList []*pb.OrderResponse
 	for _, o := range res.OrderList {
-		ord := presenter.OrderToGrpc(o)
+		ord := presenter.DomainOrderToGrpc(o)
 		orderList = append(orderList, ord)
 	}
 	return &pb.GetManyOrdersResponse{
@@ -76,7 +76,7 @@ func (c OrderController) GetOrder(
 		return nil, helper.HandleGrpcError(err)
 	}
 
-	return presenter.OrderToGrpc(o), nil
+	return presenter.DomainOrderToGrpc(o), nil
 }
 
 func (c OrderController) CreateOrder(
@@ -117,5 +117,5 @@ func (c OrderController) CreateOrder(
 		log.Println("[GrpcServer][CreateOrder] - Error:", err.Error())
 		return nil, helper.HandleGrpcError(err)
 	}
-	return presenter.OrderToGrpc(o), nil
+	return presenter.DomainOrderToGrpc(o), nil
 }
