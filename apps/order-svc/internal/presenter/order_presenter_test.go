@@ -7,7 +7,7 @@ import (
 	"github.com/buemura/event-driven-commerce/order-svc/internal/domain/order"
 	"github.com/buemura/event-driven-commerce/order-svc/internal/domain/product"
 	"github.com/buemura/event-driven-commerce/packages/pb"
-	"github.com/magiconair/properties/assert"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestOrderPresenter(t *testing.T) {
