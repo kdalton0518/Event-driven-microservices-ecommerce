@@ -39,7 +39,7 @@ func TestOrderPresenter(t *testing.T) {
 		UpdatedAt:     currentTime.Format("2006-01-02T15:04:05.000Z"),
 	}
 
-	t.Run("DomainOrderToGrpc return the write structure", func(t *testing.T) {
+	t.Run("DomainOrderToGrpc return the right structure", func(t *testing.T) {
 
 		out := DomainOrderToGrpc(in)
 		assert.Equal(t, out, expected)
