@@ -4,6 +4,19 @@ networks:
   event_driven_commerce:
 
 services:
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_VHOST: /
+    networks:
+      - event_driven_commerce
+
   db-customer:
     image: postgres:latest
     hostname: db-customer
