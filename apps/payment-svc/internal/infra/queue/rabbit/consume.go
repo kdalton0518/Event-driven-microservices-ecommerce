@@ -5,6 +5,7 @@ import (
 
 	"github.com/buemura/event-driven-commerce/payment-svc/config"
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/infra/queue/controller"
+	"github.com/buemura/event-driven-commerce/payment-svc/internal/infra/util"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
@@ -14,11 +15,11 @@ type ConsumeIn struct {
 
 func Consume(in *ConsumeIn) {
 	conn, err := amqp.Dial(config.BROKER_URL)
-	failOnError(err, "Failed to connect to RabbitMQ")
+	util.FailOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
 	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
+	util.FailOnError(err, "Failed to open a channel")
 	defer ch.Close()
 
 	msgs, err := ch.Consume(
@@ -30,7 +31,7 @@ func Consume(in *ConsumeIn) {
 		false,    // no-wait
 		nil,      // args
 	)
-	failOnError(err, "Failed to register a consumer")
+	util.FailOnError(err, "Failed to register a consumer")
 
 	var forever chan struct{}
 	go func() {

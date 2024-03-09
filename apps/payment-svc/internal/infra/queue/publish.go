@@ -5,6 +5,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/buemura/event-driven-commerce/payment-svc/config"
+	"github.com/buemura/event-driven-commerce/payment-svc/internal/infra/util"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
@@ -15,23 +17,16 @@ type PublishIn struct {
 	Payload     string
 }
 
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Panicf("%s: %s", msg, err)
-	}
-}
-
 func Publish(in *PublishIn) {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
-	// conn, err := amqp.Dial(config.BROKER_URL)
-	failOnError(err, "Failed to connect to RabbitMQ")
+	conn, err := amqp.Dial(config.BROKER_URL)
+	util.FailOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
 	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
+	util.FailOnError(err, "Failed to open a channel")
 	defer ch.Close()
 
-	failOnError(err, "Failed to declare a queue")
+	util.FailOnError(err, "Failed to declare a queue")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -45,6 +40,6 @@ func Publish(in *PublishIn) {
 			ContentType: "text/plain",
 			Body:        []byte(in.Payload),
 		})
-	failOnError(err, "Failed to publish a message")
+	util.FailOnError(err, "Failed to publish a message")
 	log.Printf("[Queue][Publish] - Sent message to %s: \n", in.RountingKey)
 }
