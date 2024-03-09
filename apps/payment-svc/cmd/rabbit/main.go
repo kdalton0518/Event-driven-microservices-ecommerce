@@ -11,13 +11,14 @@ import (
 func init() {
 	config.LoadEnv()
 	database.Connect()
+	rabbit.DeclareQueueList()
 }
 
 func main() {
 	var wg sync.WaitGroup
-	wg.Add(len(rabbit.QueueList))
+	wg.Add(len(rabbit.QueueConsumerList))
 
-	for _, q := range rabbit.QueueList {
+	for _, q := range rabbit.QueueConsumerList {
 		go func() {
 			defer wg.Done()
 			rabbit.Consume(&rabbit.ConsumeIn{

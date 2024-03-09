@@ -12,12 +12,6 @@ type ConsumeIn struct {
 	Queue string
 }
 
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Panicf("%s: %s", msg, err)
-	}
-}
-
 func Consume(in *ConsumeIn) {
 	conn, err := amqp.Dial(config.BROKER_URL)
 	failOnError(err, "Failed to connect to RabbitMQ")
@@ -27,24 +21,14 @@ func Consume(in *ConsumeIn) {
 	failOnError(err, "Failed to open a channel")
 	defer ch.Close()
 
-	q, err := ch.QueueDeclare(
-		in.Queue, // name
-		true,     // durable
-		false,    // delete when unused
-		false,    // exclusive
-		false,    // no-wait
-		nil,      // arguments
-	)
-	failOnError(err, "Failed to declare a queue")
-
 	msgs, err := ch.Consume(
-		q.Name, // queue
-		"",     // consumer
-		true,   // auto-ack
-		false,  // exclusive
-		false,  // no-local
-		false,  // no-wait
-		nil,    // args
+		in.Queue, // queue
+		"",       // consumer
+		true,     // auto-ack
+		false,    // exclusive
+		false,    // no-local
+		false,    // no-wait
+		nil,      // args
 	)
 	failOnError(err, "Failed to register a consumer")
 
@@ -56,7 +40,7 @@ func Consume(in *ConsumeIn) {
 		}
 	}()
 
-	log.Printf("RabbitMQ Consumer running for: Queue = %s", q.Name)
+	log.Printf("RabbitMQ Consumer running for: Queue = %s", in.Queue)
 	<-forever
 }
 
