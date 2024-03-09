@@ -137,3 +137,18 @@ services:
       - product-svc
     networks:
       - event_driven_commerce
+
+  payment-svc:
+    build:
+      context: .
+      dockerfile: ./apps/payment-svc/Dockerfile
+    hostname: payment-svc
+    environment:
+      - BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+      - DATABASE_URL=postgresql://admin:admin@db-payment:5432/payment_svc
+    depends_on:
+      - rabbitmq
+      - db-payment
+    restart: on-failure
+    networks:
+      - event_driven_commerce
