@@ -4,25 +4,20 @@ import (
 	"sync"
 
 	"github.com/buemura/event-driven-commerce/payment-svc/config"
+	"github.com/buemura/event-driven-commerce/payment-svc/internal/infra/database"
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/infra/queue/rabbit"
 )
 
 func init() {
 	config.LoadEnv()
+	database.Connect()
 }
 
 func main() {
-
-	queueList := []string{
-		"payment.create",
-		"payment.process",
-		"order.update",
-	}
-
 	var wg sync.WaitGroup
-	wg.Add(len(queueList))
+	wg.Add(len(rabbit.QueueList))
 
-	for _, q := range queueList {
+	for _, q := range rabbit.QueueList {
 		go func() {
 			defer wg.Done()
 			rabbit.Consume(&rabbit.ConsumeIn{

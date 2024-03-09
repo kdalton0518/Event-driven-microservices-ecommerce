@@ -4,11 +4,18 @@ import (
 	"log"
 
 	"github.com/buemura/event-driven-commerce/payment-svc/config"
+	"github.com/buemura/event-driven-commerce/payment-svc/internal/infra/queue/controller"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 type ConsumeIn struct {
 	Queue string
+}
+
+func failOnError(err error, msg string) {
+	if err != nil {
+		log.Panicf("%s: %s", msg, err)
+	}
 }
 
 func Consume(in *ConsumeIn) {
@@ -42,13 +49,26 @@ func Consume(in *ConsumeIn) {
 	failOnError(err, "Failed to register a consumer")
 
 	var forever chan struct{}
-
 	go func() {
 		for d := range msgs {
-			log.Printf("Received a message: %s", d.Body)
+			handleMessage(d)
 		}
 	}()
 
-	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	log.Printf("RabbitMQ Consumer running for: Queue=%s", q.Name)
 	<-forever
+}
+
+func handleMessage(d amqp.Delivery) {
+
+	switch d.RoutingKey {
+	case "order.create":
+		controller.CreateOrder(string(d.Body))
+	case "order.update":
+		controller.UpdateOrder(string(d.Body))
+	case "payment.create":
+		controller.CreatePayment(string(d.Body))
+	case "payment.process":
+		controller.ProcessPayment(string(d.Body))
+	}
 }

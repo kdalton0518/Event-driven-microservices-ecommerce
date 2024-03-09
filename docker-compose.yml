@@ -62,6 +62,21 @@ services:
     networks:
       - event_driven_commerce
 
+  db-payment:
+    image: postgres:latest
+    hostname: db-payment
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=payment_svc
+    ports:
+      - "35432:5432"
+    volumes:
+      - ./configs/payment-init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: postgres -c checkpoint_timeout=600 -c max_wal_size=4096
+    networks:
+      - event_driven_commerce
+
   api-gtw:
     build:
       context: .

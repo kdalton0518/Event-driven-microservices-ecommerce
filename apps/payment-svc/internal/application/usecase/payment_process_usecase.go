@@ -17,8 +17,8 @@ func NewPaymentProcessUsecase(repo payment.PaymentRepository) *PaymentProcessUse
 	}
 }
 
-func (u *PaymentProcessUsecase) Execute(orderId string) (*payment.Payment, error) {
-	p, err := u.repo.FindPendingByOrderId(orderId)
+func (u *PaymentProcessUsecase) Execute(in *payment.ProcessPaymentIn) (*payment.Payment, error) {
+	p, err := u.repo.FindPendingByOrderId(in.OrderId)
 	if err != nil {
 		return nil, err
 	}

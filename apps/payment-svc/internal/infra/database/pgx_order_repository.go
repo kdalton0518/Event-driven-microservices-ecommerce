@@ -11,9 +11,9 @@ type PgxOrderRepository struct {
 	conn *pgxpool.Pool
 }
 
-func NewPgxOrderRepository(conn *pgxpool.Pool) *PgxOrderRepository {
+func NewPgxOrderRepository() *PgxOrderRepository {
 	return &PgxOrderRepository{
-		conn: conn,
+		conn: Conn,
 	}
 }
 
@@ -60,7 +60,7 @@ func (r *PgxOrderRepository) Save(o *order.Order) (*order.Order, error) {
 		context.Background(),
 		`
 		INSERT INTO "order" (id, amount, status, payment_method, created_at, updated_at) 
-		VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+		VALUES ($1, $2, $3, $4, $5, $6)`,
 		o.ID, o.Amount, o.Status, o.PaymentMethod, o.CreatedAt, o.UpdatedAt,
 	)
 	if err != nil {
