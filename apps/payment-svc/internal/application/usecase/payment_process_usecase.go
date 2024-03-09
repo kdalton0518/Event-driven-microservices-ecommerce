@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"time"
+	"log"
 
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/domain/payment"
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/infra/util"
@@ -18,6 +18,7 @@ func NewPaymentProcessUsecase(repo payment.PaymentRepository) *PaymentProcessUse
 }
 
 func (u *PaymentProcessUsecase) Execute(in *payment.ProcessPaymentIn) (*payment.Payment, error) {
+	log.Println("[PaymentProcessUsecase][Execute] - Init payment processing for order:", in.OrderId)
 	p, err := u.repo.FindPendingByOrderId(in.OrderId)
 	if err != nil {
 		return nil, err
@@ -27,38 +28,14 @@ func (u *PaymentProcessUsecase) Execute(in *payment.ProcessPaymentIn) (*payment.
 	}
 
 	p.Status = u.setPaymentStatus()
-	p.UpdatedAt = time.Now()
 
-	_, err = u.repo.Save(p)
+	err = u.repo.Update(p.ID, string(p.Status))
 	if err != nil {
 		return nil, err
 	}
 
-	// TODO: Move this to broker
-	if p.Status == payment.PaymentFailed {
-		_, err := u.createNewPayment(p.OrderId)
-		if err != nil {
-			return nil, err
-		}
-	}
-
+	log.Println("[PaymentProcessUsecase][Execute] - Successfully processed payment for order:", in.OrderId)
 	return p, nil
-}
-
-func (u *PaymentProcessUsecase) createNewPayment(orderId string) (*payment.Payment, error) {
-	p, err := payment.NewPayment(&payment.CreatePaymentIn{
-		OrderId: orderId,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	_, err = u.repo.Save(p)
-	if err != nil {
-		return nil, err
-	}
-
-	return p, err
 }
 
 func (u *PaymentProcessUsecase) setPaymentStatus() payment.PaymentStatus {

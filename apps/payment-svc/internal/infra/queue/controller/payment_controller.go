@@ -2,10 +2,10 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/application/usecase"
+	"github.com/buemura/event-driven-commerce/payment-svc/internal/domain/order"
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/domain/payment"
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/infra/database"
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/infra/queue"
@@ -45,5 +45,35 @@ func ProcessPayment(payload string) {
 		log.Fatalf(err.Error())
 	}
 
-	fmt.Println(in)
+	repo := database.NewPgxPaymentRepository()
+	uc := usecase.NewPaymentProcessUsecase(repo)
+
+	p, err := uc.Execute(in)
+	if err != nil {
+		// queue.Publish(&queue.PublishIn{
+		// 	Queue:   "payment.create.dlq",
+		// 	Payload: payload,
+		// })
+	}
+
+	if p.Status == payment.PaymentFailed {
+		paymentCreate, _ := json.Marshal(&order.CreateOrderOut{
+			OrderID: p.ID,
+		})
+		queue.Publish(&queue.PublishIn{
+			RountingKey: "payment.create",
+			Payload:     string(paymentCreate),
+		})
+		return
+	}
+
+	// TODO: send message to update order status
+	paymentCreate, _ := json.Marshal(&order.UpdateOrderIn{
+		OrderId: p.OrderId,
+		Status:  order.StatusCompleted,
+	})
+	queue.Publish(&queue.PublishIn{
+		RountingKey: "order.update",
+		Payload:     string(paymentCreate),
+	})
 }

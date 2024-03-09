@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"time"
 
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/domain/payment"
 	"github.com/jackc/pgx/v5"
@@ -64,4 +65,20 @@ func (r *PgxPaymentRepository) Save(p *payment.Payment) (*payment.Payment, error
 		return nil, err
 	}
 	return p, nil
+}
+
+func (r *PgxPaymentRepository) Update(id, status string) error {
+	_, err := r.conn.Query(
+		context.Background(),
+		`
+		UPDATE payment SET status = $1, updated_at = $2
+		WHERE id = $3
+		`,
+		status, time.Now(), id,
+	)
+
+	if err != nil {
+		return err
+	}
+	return nil
 }

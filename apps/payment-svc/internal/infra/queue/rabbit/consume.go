@@ -51,11 +51,12 @@ func Consume(in *ConsumeIn) {
 	var forever chan struct{}
 	go func() {
 		for d := range msgs {
+			log.Printf("\n")
 			handleMessage(d)
 		}
 	}()
 
-	log.Printf("RabbitMQ Consumer running for: Queue=%s", q.Name)
+	log.Printf("RabbitMQ Consumer running for: Queue = %s", q.Name)
 	<-forever
 }
 

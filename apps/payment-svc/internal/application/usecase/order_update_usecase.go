@@ -1,8 +1,6 @@
 package usecase
 
 import (
-	"time"
-
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/domain/order"
 )
 
@@ -23,9 +21,8 @@ func (u *OrderUpdateUsecase) Execute(in *order.UpdateOrderIn) (*order.Order, err
 	}
 
 	o.Status = in.Status
-	o.UpdatedAt = time.Now()
 
-	_, err = u.repo.Save(o)
+	err = u.repo.Update(o.ID, string(o.Status))
 	if err != nil {
 		return nil, err
 	}

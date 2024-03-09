@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"time"
 
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/domain/order"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -67,4 +68,20 @@ func (r *PgxOrderRepository) Save(o *order.Order) (*order.Order, error) {
 		return nil, err
 	}
 	return o, nil
+}
+
+func (r *PgxOrderRepository) Update(id, status string) error {
+	_, err := r.conn.Query(
+		context.Background(),
+		`
+		UPDATE "order" SET status = $1, updated_at = $2
+		WHERE id = $3
+		`,
+		status, time.Now(), id,
+	)
+
+	if err != nil {
+		return err
+	}
+	return nil
 }

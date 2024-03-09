@@ -8,4 +8,5 @@ type OrderRepositoryPaginatedOut struct {
 type OrderRepository interface {
 	FindById(string) (*Order, error)
 	Save(*Order) (*Order, error)
+	Update(id, status string) error
 }

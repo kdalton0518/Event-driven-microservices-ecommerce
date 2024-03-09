@@ -47,5 +47,12 @@ func UpdateOrder(payload string) {
 
 	repo := database.NewPgxOrderRepository()
 	uc := usecase.NewOrderUpdateUsecase(repo)
-	uc.Execute(in)
+	o, err := uc.Execute(in)
+	if err != nil {
+		// queue.Publish(&queue.PublishIn{
+		// 	Queue:   "order.create.dlq",
+		// 	Payload: payload,
+		// })
+	}
+	log.Println(o)
 }
