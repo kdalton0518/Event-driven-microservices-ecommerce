@@ -16,16 +16,19 @@ func CreateOrder(payload string) {
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
+	log.Println("[QueueController][CreateOrder] - Init order creation for order:", in.OrderId)
 
 	repo := database.NewPgxOrderRepository()
 	uc := usecase.NewOrderCreateUsecase(repo)
 	o, err := uc.Execute(in)
 	if err != nil {
+		log.Println("[QueueController][CreateOrder] - Error:", err.Error())
 		// queue.Publish(&queue.PublishIn{
 		// 	Queue:   "order.create.dlq",
 		// 	Payload: payload,
 		// })
 	}
+	log.Println("[QueueController][CreateOrder] - Successfully created order:", in.OrderId)
 
 	paymentCreate, _ := json.Marshal(&order.CreateOrderOut{
 		OrderID:       o.ID,
@@ -44,15 +47,18 @@ func UpdateOrder(payload string) {
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
+	log.Println("[QueueController][UpdateOrder] - Init order update for order:", in.OrderId)
 
 	repo := database.NewPgxOrderRepository()
 	uc := usecase.NewOrderUpdateUsecase(repo)
 	o, err := uc.Execute(in)
 	if err != nil {
+		log.Println("[QueueController][UpdateOrder] - Error:", err.Error())
 		// queue.Publish(&queue.PublishIn{
 		// 	Queue:   "order.create.dlq",
 		// 	Payload: payload,
 		// })
 	}
 	log.Println(o)
+	log.Println("[QueueController][UpdateOrder] - Successfully updated order:", in.OrderId)
 }

@@ -57,7 +57,7 @@ func (r *PgxOrderRepository) FindById(id string) (*order.Order, error) {
 }
 
 func (r *PgxOrderRepository) Save(o *order.Order) (*order.Order, error) {
-	_, err := r.conn.Query(
+	_, err := r.conn.Exec(
 		context.Background(),
 		`
 		INSERT INTO "order" (id, amount, status, payment_method, created_at, updated_at) 
@@ -71,7 +71,7 @@ func (r *PgxOrderRepository) Save(o *order.Order) (*order.Order, error) {
 }
 
 func (r *PgxOrderRepository) Update(id, status string) error {
-	_, err := r.conn.Query(
+	_, err := r.conn.Exec(
 		context.Background(),
 		`
 		UPDATE "order" SET status = $1, updated_at = $2

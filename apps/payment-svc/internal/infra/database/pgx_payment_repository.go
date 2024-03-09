@@ -53,7 +53,7 @@ func (r *PgxPaymentRepository) FindPendingByOrderId(id string) (*payment.Payment
 }
 
 func (r *PgxPaymentRepository) Save(p *payment.Payment) (*payment.Payment, error) {
-	_, err := r.conn.Query(
+	_, err := r.conn.Exec(
 		context.Background(),
 		`
 		INSERT INTO payment (id, order_id, status, created_at, updated_at) 
@@ -68,7 +68,7 @@ func (r *PgxPaymentRepository) Save(p *payment.Payment) (*payment.Payment, error
 }
 
 func (r *PgxPaymentRepository) Update(id, status string) error {
-	_, err := r.conn.Query(
+	_, err := r.conn.Exec(
 		context.Background(),
 		`
 		UPDATE payment SET status = $1, updated_at = $2

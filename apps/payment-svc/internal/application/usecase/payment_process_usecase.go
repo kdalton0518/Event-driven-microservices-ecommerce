@@ -1,8 +1,6 @@
 package usecase
 
 import (
-	"log"
-
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/domain/payment"
 	"github.com/buemura/event-driven-commerce/payment-svc/internal/infra/util"
 )
@@ -18,7 +16,6 @@ func NewPaymentProcessUsecase(repo payment.PaymentRepository) *PaymentProcessUse
 }
 
 func (u *PaymentProcessUsecase) Execute(in *payment.ProcessPaymentIn) (*payment.Payment, error) {
-	log.Println("[PaymentProcessUsecase][Execute] - Init payment processing for order:", in.OrderId)
 	p, err := u.repo.FindPendingByOrderId(in.OrderId)
 	if err != nil {
 		return nil, err
@@ -34,7 +31,6 @@ func (u *PaymentProcessUsecase) Execute(in *payment.ProcessPaymentIn) (*payment.
 		return nil, err
 	}
 
-	log.Println("[PaymentProcessUsecase][Execute] - Successfully processed payment for order:", in.OrderId)
 	return p, nil
 }
 

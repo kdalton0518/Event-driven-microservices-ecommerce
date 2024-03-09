@@ -17,17 +17,20 @@ func CreatePayment(payload string) {
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
+	log.Println("[QueueController][CreatePayment] - Init payment create for order:", in.OrderId)
 
 	repo := database.NewPgxPaymentRepository()
 	uc := usecase.NewPaymentCreateUsecase(repo)
 
 	p, err := uc.Execute(in)
 	if err != nil {
+		log.Println("[QueueController][CreatePayment] - Error:", err.Error())
 		// queue.Publish(&queue.PublishIn{
 		// 	Queue:   "payment.create.dlq",
 		// 	Payload: payload,
 		// })
 	}
+	log.Println("[QueueController][CreatePayment] - Successfully inserted payment for order:", in.OrderId)
 
 	processPaymentPayload, _ := json.Marshal(&payment.CreatePaymentOut{
 		OrderId: p.OrderId,
@@ -44,17 +47,20 @@ func ProcessPayment(payload string) {
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
+	log.Println("[QueueController][ProcessPayment] - Init payment processing for order:", in.OrderId)
 
 	repo := database.NewPgxPaymentRepository()
 	uc := usecase.NewPaymentProcessUsecase(repo)
 
 	p, err := uc.Execute(in)
 	if err != nil {
+		log.Println("[QueueController][ProcessPayment] - Error:", err.Error())
 		// queue.Publish(&queue.PublishIn{
 		// 	Queue:   "payment.create.dlq",
 		// 	Payload: payload,
 		// })
 	}
+	log.Println("[QueueController][ProcessPayment] - Successfully processed payment for order:", in.OrderId)
 
 	if p.Status == payment.PaymentFailed {
 		paymentCreate, _ := json.Marshal(&order.CreateOrderOut{
