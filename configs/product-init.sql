@@ -14,16 +14,16 @@ CREATE INDEX idx_product_id ON product (id);
 DO $$
 BEGIN
     INSERT INTO product (name, price, quantity, image_url) VALUES
-    ('iPhone 13 Pro', 99900, 50, 'https://images.tcdn.com.br/img/img_prod/720284/iphone_13_pro_377_1_fb6444fd1a85d914671486a4f5496215.jpg'),
-    ('Samsung Galaxy S22 Ultra', 109900, 40, 'https://i.zst.com.br/thumbs/12/3e/3a/-796868387.jpg'),
-    ('Sony PlayStation 5', 49900, 30, 'https://m.media-amazon.com/images/I/71v7RDRYBTL._AC_UF1000,1000_QL80_.jpg'),
-    ('Xbox Series X', 49900, 35, 'https://m.media-amazon.com/images/I/41wbBaMnh2L._AC_UF1000,1000_QL80_.jpg'),
-    ('Canon EOS R5', 389900, 20, 'https://www.detonashop.com.br/media/catalog/product/cache/1/image/580x580/9df78eab33525d08d6e5fb8d27136e95/e/i/ei12.png'),
-    ('Nikon Z9', 549900, 15, 'https://m.media-amazon.com/images/I/41QkjNmc8aL.jpg'),
-    ('LG OLED C1 65" TV', 229900, 10, 'https://www.oficinadanet.com.br/imagens/obj_item/1035/lg-oled65c1.jpg'),
-    ('Dell XPS 15 Laptop', 179900, 25, 'https://m.media-amazon.com/images/I/719CAihgtTL.jpg'),
-    ('Amazon Echo Dot', 4999, 60, 'https://ocanova.com.br/cdn/shop/products/1_26d3be7f-a731-4f3f-aba6-e3cd39675cb7.jpg?v=1679151958'),
-    ('Nintendo Switch', 29900, 55, 'https://m.media-amazon.com/images/I/712rNmu7YEL._AC_UF1000,1000_QL80_.jpg');
+    ('iPhone 14 Pro', 99900, 50, 'https://d1p6nzzdute2g.cloudfront.net/lojas/loja-1517/079fb574-e319-493d-a49f-e8fed3994201'),
+    ('Samsung Galaxy S22 Ultra', 109900, 40, 'https://images.samsung.com/is/image/samsung/p6pim/pt/2202/gallery/pt-galaxy-s22-ultra-s908-sm-s908bzggeub-530885352?$650_519_PNG$'),
+    ('Sony PlayStation 5', 49900, 30, 'https://files.tecnoblog.net/wp-content/uploads/2020/11/playstation_5_produto-700x700.png'),
+    ('Xbox Series X', 49900, 35, 'https://assets.xboxservices.com/assets/fb/d2/fbd2cb56-5c25-414d-9f46-e6a164cdf5be.png?n=XBX_A-BuyBoxBGImage01-D.png'),
+    ('Canon EOS R5', 389900, 20, 'https://i1.adis.ws/i/canon/eos-r5_front_rf24-105mmf4lisusm_square_32c26ad194234d42b3cd9e582a21c99b'),
+    ('Nikon Z9', 549900, 15, 'https://cdn-4.nikon-cdn.com/e/Q5NM96RZZo-RRZZFeeMiveET0gVQ--AxJI7g-xcIXdWk_L9xvLGcj82WzBlHRJ_B/Views/z-9-24-70-front.png'),
+    ('LG OLED C1 65" TV', 229900, 10, 'https://www.lg.com/content/dam/channel/wcms/pt/images/oled-tv/2021/oled-buying-guide/TV-OLED-Buying-Guide-06-Specs-Desktop-A-4.png'),
+    ('Dell XPS 15 Laptop', 179900, 25, 'https://upload.wikimedia.org/wikipedia/commons/1/18/Dell_XPS_15_%282015%29.png'),
+    ('Amazon Echo Dot', 4999, 60, 'https://crdms.images.consumerreports.org/prod/products/cr/models/402087-smart-speakers-amazon-echo-dot-4th-gen-10015594.png'),
+    ('Nintendo Switch', 29900, 55, 'https://assets.nintendo.com/image/upload/f_auto/q_auto/dpr_2.0/c_scale,w_300/ncom/en_US/switch/refresh/switchindock');
     -- ('Google Nest Hub', 8999, 45, 'http://localhost:3131/image-nest-hub'),
     -- ('Fitbit Charge 5', 14900, 70, 'http://localhost:3131/image-fitbit'),
     -- ('Bose QuietComfort 45', 32900, 30, 'http://localhost:3131/image-bose'),

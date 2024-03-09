@@ -1,33 +1,37 @@
+"use client";
+
+import Link from "next/link";
+
+import { Card } from "@/components/ui/card";
+import { IProduct } from "@/types/product";
 import { currencyFormatter } from "@/utils/currency-formatter";
-import Image from "next/image";
 
-interface ProductCardProps {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image_url: string;
-}
-
-export default function ProductCard(props: ProductCardProps) {
+export default function ProductCard(props: IProduct) {
   return (
-    <div className="flex flex-col bg-white dark:bg-zinc-900 border max-w-fit shadow-sm cursor-pointer">
-      <Image
-        className="p-4 pb-10"
-        src={props.image_url}
-        alt={props.name}
-        width={250}
-        height={250}
-      />
-
-      <div className="border-b border-zinc-200 dark:border-zinc-800" />
-
-      <div className="flex flex-col p-4 pb-20">
-        <span>{props.name}</span>
-        <span className="text-xl">
+    <Card>
+      <div className="grid gap-4 text-center p-4">
+        <Link className="inline-block" href={`/product/${props.id}`}>
+          <img
+            alt="Thumbnail"
+            className="aspect-square object-cover border border-gray-200 rounded-lg overflow-hidden hover:opacity-90 transition-opacity dark:border-gray-800"
+            src={props.image_url}
+            height={200}
+            width={200}
+          />
+          <span className="sr-only">View Product</span>
+        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            className="font-semibold hover:underline dark:font-semibold-contrast"
+            href="#"
+          >
+            {props.name}
+          </Link>
+        </div>
+        <div className="text-sm font-semibold">
           {currencyFormatter.format(props.price / 100)}
-        </span>
+        </div>
       </div>
-    </div>
+    </Card>
   );
 }
