@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -9,14 +12,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCheckoutStore } from "@/store/checkout";
 import { IProduct } from "@/types/product";
-import { useState } from "react";
 import { CartAddButton } from "../cart/cart-add-button";
 
 export function ProductForm(props: IProduct) {
+  const { initCheckout } = useCheckoutStore();
   const [quantity, setQuantity] = useState(1);
-
-  const handleFieldValue = (value: string) => setQuantity(+value);
 
   return (
     <form className="grid gap-4 md:gap-10" onSubmit={(e) => e.preventDefault()}>
@@ -24,7 +26,7 @@ export function ProductForm(props: IProduct) {
         <Label className="text-base" htmlFor="quantity">
           Select Quantity
         </Label>
-        <Select defaultValue="1" onValueChange={handleFieldValue}>
+        <Select defaultValue="1" onValueChange={(value) => setQuantity(+value)}>
           <SelectTrigger className="w-24">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
@@ -38,8 +40,15 @@ export function ProductForm(props: IProduct) {
         </Select>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Button size="lg">Buy</Button>
+      <div className="flex flex-col gap-2 w-full">
+        <Link href={`/checkout`}>
+          <Button
+            className="w-full"
+            onClick={() => initCheckout([{ ...props, quantity }])}
+          >
+            Buy
+          </Button>
+        </Link>
         <CartAddButton
           id={props.id}
           name={props.name}

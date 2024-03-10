@@ -1,9 +1,13 @@
 import { Cart } from "@/components/feature/cart/cart";
+import { ProceedCheckout } from "@/components/feature/checkout/proceed-checkout";
 
 export default function Page() {
   return (
     <main className="p-10 space-y-4">
-      <h1 className="text-2xl">Shopping Cart</h1>
+      <div className="flex justify-between">
+        <h1 className="text-2xl">Shopping Cart</h1>
+        <ProceedCheckout />
+      </div>
       <Cart />
     </main>
   );
