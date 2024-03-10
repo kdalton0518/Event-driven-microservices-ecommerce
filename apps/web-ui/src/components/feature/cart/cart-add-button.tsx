@@ -11,7 +11,7 @@ export function CartAddButton(props: IProduct) {
 
   return (
     <Button
-      className="bg-zinc-700 text-white hover:bg-zinc-800"
+      className="bg-zinc-500 dark:bg-zinc-700 text-white hover:bg-zinc-600 dark:hover:bg-zinc-800"
       size="lg"
       onClick={() => {
         addItem(props);

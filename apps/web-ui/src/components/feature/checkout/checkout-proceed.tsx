@@ -16,7 +16,7 @@ export function ProceedCheckout() {
     initCheckout(cart);
     clearOrder();
     setProductList(cart);
-    setCustomerId("haha");
+    setCustomerId("2f1134ee-7403-48da-b92c-6b3b8aac3708");
   };
 
   if (!cart.length) {

@@ -7,7 +7,10 @@ import { currencyFormatter } from "@/utils/currency-formatter";
 export function CheckoutProductReview() {
   const { checkout } = useCheckoutStore();
 
-  const total = checkout.reduce((acc, crr) => acc + crr.price, 0);
+  const total = checkout.reduce(
+    (acc, crr) => acc + crr.price * crr.quantity,
+    0
+  );
 
   return (
     <Card className="border rounded-md p-4 space-y-4">

@@ -27,7 +27,7 @@ export function ProductForm(props: IProduct) {
     initCheckout(product);
     clearOrder();
     setProductList(product);
-    setCustomerId("haha");
+    setCustomerId("2f1134ee-7403-48da-b92c-6b3b8aac3708");
   };
 
   return (
