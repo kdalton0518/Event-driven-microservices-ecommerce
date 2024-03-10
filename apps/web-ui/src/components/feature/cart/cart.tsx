@@ -1,12 +1,14 @@
 "use client";
 
 import { Cross1Icon } from "@radix-ui/react-icons";
-
-import { useCartStore } from "@/store/cart";
-import { currencyFormatter } from "@/utils/currency-formatter";
 import Link from "next/link";
 
+import { useToast } from "@/components/ui/use-toast";
+import { useCartStore } from "@/store/cart";
+import { currencyFormatter } from "@/utils/currency-formatter";
+
 export function Cart() {
+  const { toast } = useToast();
   const { cart, removeItem } = useCartStore();
 
   return (
@@ -19,7 +21,14 @@ export function Cart() {
           <div className="flex items-center gap-4">
             <Cross1Icon
               className="cursor-pointer"
-              onClick={() => removeItem(item.id)}
+              onClick={() => {
+                removeItem(item.id);
+                toast({
+                  className:
+                    "bg-emerald-50 text-black dark:bg-transparent dark:text-white dark:border-emerald-950",
+                  title: "Item removed from cart!",
+                });
+              }}
             />
             <Link href={`/product/${item.id}`}>
               <img

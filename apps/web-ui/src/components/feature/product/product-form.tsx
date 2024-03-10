@@ -19,7 +19,7 @@ export function ProductForm(props: IProduct) {
   const handleFieldValue = (value: string) => setQuantity(+value);
 
   return (
-    <form className="grid gap-4 md:gap-10">
+    <form className="grid gap-4 md:gap-10" onSubmit={(e) => e.preventDefault()}>
       <div className="grid gap-2">
         <Label className="text-base" htmlFor="quantity">
           Select Quantity
