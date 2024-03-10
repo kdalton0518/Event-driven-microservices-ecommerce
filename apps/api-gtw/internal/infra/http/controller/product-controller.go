@@ -5,15 +5,14 @@ import (
 	"strconv"
 
 	"github.com/buemura/event-driven-commerce/api-gtw/internal/infra/factory"
+	"github.com/buemura/event-driven-commerce/api-gtw/internal/infra/http/helper"
 	"github.com/buemura/event-driven-commerce/api-gtw/internal/modules/product"
-	"github.com/buemura/event-driven-commerce/packages/httphelper"
+	"github.com/labstack/echo/v4"
 )
 
-func GetManyProducts(w http.ResponseWriter, r *http.Request) {
-	q := r.URL.Query()
-
-	page, _ := strconv.Atoi(q.Get("page"))
-	items, _ := strconv.Atoi(q.Get("items"))
+func GetManyProducts(c echo.Context) error {
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	items, _ := strconv.Atoi(c.QueryParam("items"))
 
 	service := factory.MakeProductDomainService()
 	res, err := service.GetManyProducts(&product.GetManyProductsIn{
@@ -21,21 +20,20 @@ func GetManyProducts(w http.ResponseWriter, r *http.Request) {
 		Items: items,
 	})
 	if err != nil {
-		httphelper.ParseGrpcToHttpError(w, err)
-		return
+		return helper.ParseGrpcToHttpError(c, err)
 	}
-	httphelper.HandleHttpSuccessJson(w, http.StatusOK, res)
+	return c.JSON(http.StatusOK, res)
 }
 
-func GetProduct(w http.ResponseWriter, r *http.Request) {
-	idStr := r.PathValue("id")
-
+func GetProduct(c echo.Context) error {
+	idStr := c.Param("id")
 	id, _ := strconv.Atoi(idStr)
+
 	service := factory.MakeProductDomainService()
 	res, err := service.GetProduct(id)
 	if err != nil {
-		httphelper.ParseGrpcToHttpError(w, err)
-		return
+		return helper.ParseGrpcToHttpError(c, err)
+
 	}
-	httphelper.HandleHttpSuccessJson(w, http.StatusOK, res)
+	return c.JSON(http.StatusOK, res)
 }

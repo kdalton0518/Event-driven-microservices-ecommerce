@@ -7,14 +7,12 @@ import (
 	"github.com/buemura/event-driven-commerce/api-gtw/internal/infra/factory"
 	"github.com/buemura/event-driven-commerce/api-gtw/internal/infra/http/helper"
 	"github.com/buemura/event-driven-commerce/api-gtw/internal/modules/order"
-	"github.com/buemura/event-driven-commerce/packages/httphelper"
+	"github.com/labstack/echo/v4"
 )
 
-func GetManyOrders(w http.ResponseWriter, r *http.Request) {
-	q := r.URL.Query()
-
-	page, _ := strconv.Atoi(q.Get("page"))
-	items, _ := strconv.Atoi(q.Get("items"))
+func GetManyOrders(c echo.Context) error {
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	items, _ := strconv.Atoi(c.QueryParam("items"))
 
 	service := factory.MakeOrderDomainService()
 	res, err := service.GetManyOrders(&order.GetManyOrdersIn{
@@ -22,43 +20,36 @@ func GetManyOrders(w http.ResponseWriter, r *http.Request) {
 		Items: items,
 	})
 	if err != nil {
-		httphelper.ParseGrpcToHttpError(w, err)
-		return
+		return helper.ParseGrpcToHttpError(c, err)
 	}
-	httphelper.HandleHttpSuccessJson(w, http.StatusOK, res)
+	return c.JSON(http.StatusOK, res)
 }
 
-func GetOrder(w http.ResponseWriter, r *http.Request) {
-	id := r.PathValue("id")
-
+func GetOrder(c echo.Context) error {
+	id := c.Param("id")
 	service := factory.MakeOrderDomainService()
 	res, err := service.GetOrder(id)
 	if err != nil {
-		httphelper.ParseGrpcToHttpError(w, err)
-		return
+		return helper.ParseGrpcToHttpError(c, err)
 	}
-	httphelper.HandleHttpSuccessJson(w, http.StatusOK, res)
+	return c.JSON(http.StatusOK, res)
 }
 
-func CreateOrder(w http.ResponseWriter, r *http.Request) {
-	body, err := httphelper.ParseRequestBody[order.CreateOrderIn](r)
-	if err != nil {
-		helper.HandleHttpError(w, err)
-		return
+func CreateOrder(c echo.Context) error {
+	body := new(order.CreateOrderIn)
+	if err := c.Bind(&body); err != nil {
+		return c.NoContent(http.StatusUnprocessableEntity)
 	}
-
-	err = validateCreateOrderPayload(body)
+	err := validateCreateOrderPayload(body)
 	if err != nil {
-		helper.HandleHttpError(w, err)
-		return
+		return helper.HandleHttpError(c, err)
 	}
 	service := factory.MakeOrderDomainService()
 	res, err := service.CreateOrder(body)
 	if err != nil {
-		httphelper.ParseGrpcToHttpError(w, err)
-		return
+		return helper.HandleHttpError(c, err)
 	}
-	httphelper.HandleHttpSuccessJson(w, http.StatusOK, res)
+	return c.JSON(http.StatusOK, res)
 }
 
 func validateCreateOrderPayload(in *order.CreateOrderIn) error {

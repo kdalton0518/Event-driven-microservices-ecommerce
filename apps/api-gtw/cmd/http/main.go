@@ -11,6 +11,8 @@ import (
 
 	"github.com/buemura/event-driven-commerce/api-gtw/config"
 	"github.com/buemura/event-driven-commerce/api-gtw/internal/infra/http/router"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func init() {
@@ -18,12 +20,15 @@ func init() {
 }
 
 func main() {
-	router.SetupRouters()
+	server := echo.New()
+	server.Use(middleware.CORS())
+
+	router.SetupRouters(server)
+
 	port := ":" + config.PORT
-	server := &http.Server{Addr: port}
 
 	go func() {
-		if err := server.ListenAndServe(); err != nil && http.ErrServerClosed != err {
+		if err := server.Start(port); err != nil && http.ErrServerClosed != err {
 			panic(err)
 		}
 	}()

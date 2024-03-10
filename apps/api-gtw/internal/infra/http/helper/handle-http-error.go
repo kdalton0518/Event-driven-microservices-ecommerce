@@ -1,9 +1,10 @@
 package helper
 
 import (
-	"encoding/json"
 	"errors"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
 var ErrBadRequest = errors.New("bad request")
@@ -13,17 +14,13 @@ type ErrorMessage struct {
 	Error string `json:"error"`
 }
 
-func HandleHttpError(w http.ResponseWriter, err error) {
+func HandleHttpError(c echo.Context, err error) error {
 	switch {
 	case errors.Is(err, ErrBadRequest): // 404
-		w.WriteHeader(http.StatusBadRequest)
+		return c.NoContent(http.StatusBadRequest)
 	case errors.Is(err, ErrInvalidArgument): // 422
-		w.WriteHeader(http.StatusUnprocessableEntity)
+		return c.NoContent(http.StatusUnprocessableEntity)
 	default: // 500
-		w.WriteHeader(http.StatusInternalServerError)
+		return c.NoContent(http.StatusInternalServerError)
 	}
-
-	json.NewEncoder(w).Encode(&ErrorMessage{
-		Error: err.Error(),
-	})
 }

@@ -1,12 +1,11 @@
 package router
 
 import (
-	"net/http"
-
 	"github.com/buemura/event-driven-commerce/api-gtw/internal/infra/http/controller"
+	"github.com/labstack/echo/v4"
 )
 
-func setupProductRouters() {
-	http.HandleFunc("GET /api/products", controller.GetManyProducts)
-	http.HandleFunc("GET /api/products/{id}", controller.GetProduct)
+func setupProductRouters(app *echo.Echo) {
+	app.GET("/api/products", controller.GetManyProducts)
+	app.GET("/api/products/:id", controller.GetProduct)
 }
