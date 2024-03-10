@@ -1,13 +1,5 @@
 import { getProduct } from "@/api/product";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { ProductForm } from "@/components/feature/product/product-form";
 import { Separator } from "@/components/ui/separator";
 import { currencyFormatter } from "@/utils/currency-formatter";
 
@@ -26,34 +18,9 @@ export default async function Page({ params }: { params: { id: string } }) {
           </span>
         </div>
         <span>Quantity: {data.quantity}</span>
-        <form className="grid gap-4 md:gap-10">
-          <div className="grid gap-2">
-            <Label className="text-base" htmlFor="quantity">
-              Select Quantity
-            </Label>
-            <Select defaultValue="1">
-              <SelectTrigger className="w-24">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">1</SelectItem>
-                <SelectItem value="2">2</SelectItem>
-                <SelectItem value="3">3</SelectItem>
-                <SelectItem value="4">4</SelectItem>
-                <SelectItem value="5">5</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Button size="lg">Buy</Button>
-            <Button
-              className="bg-zinc-700 text-white hover:bg-zinc-800"
-              size="lg"
-            >
-              Add to cart
-            </Button>
-          </div>
-        </form>
+
+        <ProductForm {...data} />
+
         <Separator />
         <div className="grid gap-4 text-sm leading-loose">
           <p>
@@ -67,7 +34,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       </div>
       <div className="grid gap-3 items-start">
         <img
-          className="aspect-square object-cover border border-gray-200 w-full rounded-lg overflow-hidden dark:border-gray-800"
+          className="aspect-square object-cover border border-zinc-200 w-full rounded-lg overflow-hidden dark:border-zinc-800"
           src={data.image_url}
           alt={data.name}
           height={600}
