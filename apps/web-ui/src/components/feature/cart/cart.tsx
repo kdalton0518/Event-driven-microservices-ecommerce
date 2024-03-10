@@ -3,6 +3,7 @@
 import { Cross1Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useCartStore } from "@/store/cart";
 import { currencyFormatter } from "@/utils/currency-formatter";
@@ -10,6 +11,19 @@ import { currencyFormatter } from "@/utils/currency-formatter";
 export function Cart() {
   const { toast } = useToast();
   const { cart, removeItem } = useCartStore();
+
+  if (!cart.length) {
+    return (
+      <div className="pt-10 space-y-8 flex flex-col">
+        <span>
+          It seems like you don't have any products on your shopping cart yet...
+        </span>
+        <Link href="/">
+          <Button>Go back to Home page</Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

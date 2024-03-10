@@ -19,6 +19,10 @@ export function ProceedCheckout() {
     setCustomerId("haha");
   };
 
+  if (!cart.length) {
+    return null;
+  }
+
   return (
     <Link href="/checkout">
       <Button onClick={handleProceedCheckout}>Proceed to Checkout</Button>

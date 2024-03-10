@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -14,11 +15,9 @@ import {
 import { useOrderStore } from "@/store/order";
 import { CheckoutCreditCard } from "./checkout-credit-card";
 
-const paymentMethodList = ["PIX", "CREDIT_CARD"];
-
 export function CheckoutPaymentInformation() {
-  const { setPaymentMethod } = useOrderStore();
-  const [paymentMethod, setMethod] = useState("");
+  const { setPaymentMethod, order } = useOrderStore();
+  const [paymentMethod, setMethod] = useState(order.payment_method);
 
   return (
     <Card className="border rounded-md p-4">
@@ -28,19 +27,20 @@ export function CheckoutPaymentInformation() {
             Select payment method
           </Label>
           <Select
-            defaultValue="1"
+            defaultValue={paymentMethod}
             onValueChange={(value) => {
-              const payment = paymentMethodList[Number(value) - 1];
-              setMethod(payment);
-              setPaymentMethod(payment);
+              setMethod(value);
+              setPaymentMethod(value);
             }}
           >
             <SelectTrigger className="w-36">
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder="Select method" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="1">Pix</SelectItem>
-              <SelectItem value="2">Credit Card</SelectItem>
+              <SelectGroup>
+                <SelectItem value="PIX">Pix</SelectItem>
+                <SelectItem value="CREDIT_CARD">Credit Card</SelectItem>
+              </SelectGroup>
             </SelectContent>
           </Select>
         </div>
