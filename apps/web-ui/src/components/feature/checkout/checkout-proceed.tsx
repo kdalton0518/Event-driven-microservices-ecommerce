@@ -5,14 +5,22 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cart";
 import { useCheckoutStore } from "@/store/checkout";
+import { useOrderStore } from "@/store/order";
 
 export function ProceedCheckout() {
   const { cart } = useCartStore();
   const { initCheckout } = useCheckoutStore();
+  const { setProductList, clearOrder } = useOrderStore();
+
+  const handleProceedCheckout = () => {
+    initCheckout(cart);
+    clearOrder();
+    setProductList(cart);
+  };
 
   return (
     <Link href="/checkout">
-      <Button onClick={() => initCheckout(cart)}>Proceed to Checkout</Button>
+      <Button onClick={handleProceedCheckout}>Proceed to Checkout</Button>
     </Link>
   );
 }

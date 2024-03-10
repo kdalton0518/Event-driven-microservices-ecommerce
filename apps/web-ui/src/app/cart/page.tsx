@@ -1,5 +1,5 @@
 import { Cart } from "@/components/feature/cart/cart";
-import { ProceedCheckout } from "@/components/feature/checkout/proceed-checkout";
+import { ProceedCheckout } from "@/components/feature/checkout/checkout-proceed";
 
 export default function Page() {
   return (

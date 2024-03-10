@@ -13,12 +13,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCheckoutStore } from "@/store/checkout";
+import { useOrderStore } from "@/store/order";
 import { IProduct } from "@/types/product";
 import { CartAddButton } from "../cart/cart-add-button";
 
 export function ProductForm(props: IProduct) {
+  const { clearOrder, setProductList } = useOrderStore();
   const { initCheckout } = useCheckoutStore();
   const [quantity, setQuantity] = useState(1);
+
+  const handleBuyProduct = () => {
+    const product = [{ ...props, quantity }];
+    initCheckout(product);
+    clearOrder();
+    setProductList(product);
+  };
 
   return (
     <form className="grid gap-4 md:gap-10" onSubmit={(e) => e.preventDefault()}>
@@ -42,10 +51,7 @@ export function ProductForm(props: IProduct) {
 
       <div className="flex flex-col gap-2 w-full">
         <Link href={`/checkout`}>
-          <Button
-            className="w-full"
-            onClick={() => initCheckout([{ ...props, quantity }])}
-          >
+          <Button className="w-full" onClick={handleBuyProduct}>
             Buy
           </Button>
         </Link>
