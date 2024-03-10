@@ -2,12 +2,10 @@
 
 import { Card } from "@/components/ui/card";
 import { useCheckoutStore } from "@/store/checkout";
-import { useOrderStore } from "@/store/order";
 import { currencyFormatter } from "@/utils/currency-formatter";
 
 export function CheckoutProductReview() {
   const { checkout } = useCheckoutStore();
-  const { order } = useOrderStore();
 
   const total = checkout.reduce((acc, crr) => acc + crr.price, 0);
 

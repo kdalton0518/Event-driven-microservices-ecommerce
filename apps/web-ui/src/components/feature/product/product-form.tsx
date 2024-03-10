@@ -18,7 +18,7 @@ import { IProduct } from "@/types/product";
 import { CartAddButton } from "../cart/cart-add-button";
 
 export function ProductForm(props: IProduct) {
-  const { clearOrder, setProductList } = useOrderStore();
+  const { clearOrder, setProductList, setCustomerId } = useOrderStore();
   const { initCheckout } = useCheckoutStore();
   const [quantity, setQuantity] = useState(1);
 
@@ -27,6 +27,7 @@ export function ProductForm(props: IProduct) {
     initCheckout(product);
     clearOrder();
     setProductList(product);
+    setCustomerId("haha");
   };
 
   return (

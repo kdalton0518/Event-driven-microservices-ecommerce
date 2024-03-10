@@ -10,12 +10,13 @@ import { useOrderStore } from "@/store/order";
 export function ProceedCheckout() {
   const { cart } = useCartStore();
   const { initCheckout } = useCheckoutStore();
-  const { setProductList, clearOrder } = useOrderStore();
+  const { clearOrder, setProductList, setCustomerId } = useOrderStore();
 
   const handleProceedCheckout = () => {
     initCheckout(cart);
     clearOrder();
     setProductList(cart);
+    setCustomerId("haha");
   };
 
   return (
