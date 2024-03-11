@@ -56,7 +56,9 @@ export function Cart() {
 
             <div className="flex flex-col">
               <Link href={`/product/${item.id}`}>
-                <span className="text-xl hover:underline">{item.name}</span>
+                <span className="text-base md:text-xl hover:underline">
+                  {item.name}
+                </span>
               </Link>
               <div>Quantity: {item.quantity}</div>
             </div>

@@ -19,15 +19,20 @@ export function CheckoutProductReview() {
       <div className="border-b border-zinc-200 dark:border-zinc-800" />
 
       {checkout.map((c) => (
-        <div className="flex items-center justify-between" key={c.id}>
-          <div className="flex items-center">
+        <div
+          className="flex flex-col md:flex-row items-center justify-between"
+          key={c.id}
+        >
+          <div className="flex justify-between md:justify-normal items-center w-full">
             <img src={c.image_url} alt={c.name} className="w-20" />
             <div>
               <strong>{c.name}</strong> x {c.quantity}
             </div>
           </div>
 
-          <span>{currencyFormatter.format(c.price / 100)}</span>
+          <span className="w-full text-right">
+            {currencyFormatter.format(c.price / 100)}
+          </span>
         </div>
       ))}
 
