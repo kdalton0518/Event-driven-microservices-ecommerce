@@ -1,12 +1,11 @@
 "use client";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 import { ProceedFinish } from "@/components/feature/checkout/checkout-finish";
 import { CheckoutPaymentInformation } from "@/components/feature/checkout/checkout-payment-information";
 import { CheckoutProductReview } from "@/components/feature/checkout/checkout-product-review";
-
-const queryClient = new QueryClient();
+import { queryClient } from "@/lib/query-client";
 
 export default function Page() {
   return (

@@ -23,7 +23,7 @@ func (c ProductController) GetManyProducts(
 	in *pb.GetManyProductsRequest,
 ) (*pb.GetManyProductsResponse, error) {
 	log.Println("[GrpcServer][GetManyProducts] - Incoming request")
-	var page, items int = 1, 10
+	var page, items int = 1, 9
 	if in.Page != 0 {
 		page = int(in.Page)
 	}
@@ -46,11 +46,12 @@ func (c ProductController) GetManyProducts(
 	var productList []*pb.ProductResponse
 	for _, p := range res.ProductList {
 		productList = append(productList, &pb.ProductResponse{
-			Id:       int32(p.ID),
-			Name:     p.Name,
-			Price:    int64(p.Price),
-			Quantity: int32(p.Quantity),
-			ImageUrl: p.ImageUrl,
+			Id:          int32(p.ID),
+			Name:        p.Name,
+			Description: p.Description,
+			Price:       int64(p.Price),
+			Quantity:    int32(p.Quantity),
+			ImageUrl:    p.ImageUrl,
 		})
 	}
 
@@ -85,11 +86,12 @@ func (c ProductController) GetProduct(
 	}
 
 	return &pb.ProductResponse{
-		Id:       int32(prod.ID),
-		Name:     prod.Name,
-		Price:    int64(prod.Price),
-		Quantity: int32(prod.Quantity),
-		ImageUrl: prod.ImageUrl,
+		Id:          int32(prod.ID),
+		Name:        prod.Name,
+		Description: prod.Description,
+		Price:       int64(prod.Price),
+		Quantity:    int32(prod.Quantity),
+		ImageUrl:    prod.ImageUrl,
 	}, nil
 }
 
@@ -116,10 +118,11 @@ func (c ProductController) UpdateProductQuantity(
 	}
 
 	return &pb.ProductResponse{
-		Id:       int32(prod.ID),
-		Name:     prod.Name,
-		Price:    int64(prod.Price),
-		Quantity: int32(prod.Quantity),
-		ImageUrl: prod.ImageUrl,
+		Id:          int32(prod.ID),
+		Name:        prod.Name,
+		Description: prod.Description,
+		Price:       int64(prod.Price),
+		Quantity:    int32(prod.Quantity),
+		ImageUrl:    prod.ImageUrl,
 	}, nil
 }

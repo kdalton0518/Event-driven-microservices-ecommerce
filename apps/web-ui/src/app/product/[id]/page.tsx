@@ -23,13 +23,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
         <Separator />
         <div className="grid gap-4 text-sm leading-loose">
-          <p>
-            Introducing the Acme Prism T-Shirt, a perfect blend of style and
-            comfort for the modern individual. This tee is crafted with a
-            meticulous composition of 60% combed ringspun cotton and 40%
-            polyester jersey, ensuring a soft and breathable fabric that feels
-            gentle against the skin.
-          </p>
+          <p>{data.description}</p>
         </div>
       </div>
       <div className="grid gap-3 items-start">

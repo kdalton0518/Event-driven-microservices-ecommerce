@@ -5,9 +5,10 @@ option go_package = "github.com/buemura/event-driven-commerce/packages/pb";
 message ProductResponse {
     int32 id = 1;
     string name = 2;
-    int64 price = 3;
-    int32 quantity = 4;
-    string image_url = 5;
+    string description = 3;
+    int64 price = 4;
+    int32 quantity = 5;
+    string image_url = 6;
 }
 
 message GetManyProductsRequest {

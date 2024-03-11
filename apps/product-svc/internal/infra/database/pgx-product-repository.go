@@ -57,10 +57,10 @@ func (r *PgxProductRepository) Update(newP *product.Product) (*product.Product, 
 		context.Background(),
 		`
 		UPDATE product 
-		SET name = $1, price = $2, quantity = $3, image_url = $4 
-		WHERE id = $5
+		SET name = $1, description = $2, price = $3, quantity = $4, image_url = $5 
+		WHERE id = $6
 		`,
-		newP.Name, newP.Price, newP.Quantity, newP.ImageUrl,
+		newP.Name, newP.Description, newP.Price, newP.Quantity, newP.ImageUrl,
 		newP.ID,
 	)
 	if err != nil {

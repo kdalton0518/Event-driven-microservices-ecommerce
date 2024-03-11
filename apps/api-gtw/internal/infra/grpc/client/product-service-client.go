@@ -37,11 +37,12 @@ func (*ProductGrpcService) GetProduct(id int) (*product.Product, error) {
 	}
 
 	return &product.Product{
-		ID:       int(prod.Id),
-		Name:     prod.Name,
-		Price:    int(prod.Price),
-		Quantity: int(prod.Quantity),
-		ImageUrl: prod.ImageUrl,
+		ID:          int(prod.Id),
+		Name:        prod.Name,
+		Description: prod.Description,
+		Price:       int(prod.Price),
+		Quantity:    int(prod.Quantity),
+		ImageUrl:    prod.ImageUrl,
 	}, nil
 }
 
@@ -65,11 +66,12 @@ func (*ProductGrpcService) GetManyProducts(in *product.GetManyProductsIn) (*prod
 	var productList []*product.Product
 	for _, v := range res.ProductList {
 		productList = append(productList, &product.Product{
-			ID:       int(v.Id),
-			Name:     v.Name,
-			Price:    int(v.Price),
-			Quantity: int(v.Quantity),
-			ImageUrl: v.ImageUrl,
+			ID:          int(v.Id),
+			Name:        v.Name,
+			Description: v.Description,
+			Price:       int(v.Price),
+			Quantity:    int(v.Quantity),
+			ImageUrl:    v.ImageUrl,
 		})
 	}
 
