@@ -5,19 +5,19 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ShoppingBag } from "lucide-react";
+import { LogInIcon } from "lucide-react";
 
-export function OrderButton() {
+export function SignInButton() {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="outline" size="icon">
-            <ShoppingBag className="w-5" />
+            <LogInIcon className="w-5" />
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>Purchase orders</p>
+          <p>Sign In</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

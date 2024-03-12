@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { PackageOpenIcon } from "lucide-react";
+import Link from "next/link";
 
+import { SignInButton } from "@/components/feature/auth/signin-button";
 import { CartButton } from "@/components/feature/cart/cart-button";
 import { OrderButton } from "@/components/feature/order/order-button";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
@@ -20,6 +21,9 @@ export default function Header() {
           <CartButton />
         </Link>
         <ThemeToggle />
+        <Link href="/auth/signin">
+          <SignInButton />
+        </Link>
       </div>
     </div>
   );
