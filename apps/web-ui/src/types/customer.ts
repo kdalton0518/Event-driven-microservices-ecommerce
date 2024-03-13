@@ -20,3 +20,5 @@ export interface ILoginCustomerOut {
   access_token: string;
   customer: Omit<ICustomer, "password">;
 }
+
+export interface ICustomerAuth extends ILoginCustomerOut {}

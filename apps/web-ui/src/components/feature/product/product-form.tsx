@@ -14,10 +14,12 @@ import {
 } from "@/components/ui/select";
 import { useCheckoutStore } from "@/store/checkout";
 import { useOrderStore } from "@/store/order";
+import { useUserStore } from "@/store/user";
 import { IProduct } from "@/types/product";
 import { CartAddButton } from "../cart/cart-add-button";
 
 export function ProductForm(props: IProduct) {
+  const { user } = useUserStore();
   const { clearOrder, setProductList, setCustomerId } = useOrderStore();
   const { initCheckout } = useCheckoutStore();
   const [quantity, setQuantity] = useState(1);
@@ -27,7 +29,7 @@ export function ProductForm(props: IProduct) {
     initCheckout(product);
     clearOrder();
     setProductList(product);
-    setCustomerId("2f1134ee-7403-48da-b92c-6b3b8aac3708");
+    setCustomerId(user?.customer.id ?? "");
   };
 
   return (
@@ -59,6 +61,7 @@ export function ProductForm(props: IProduct) {
         <CartAddButton
           id={props.id}
           name={props.name}
+          description={props.description}
           price={props.price}
           quantity={quantity}
           image_url={props.image_url}

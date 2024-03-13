@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cart";
 import { useCheckoutStore } from "@/store/checkout";
 import { useOrderStore } from "@/store/order";
+import { useUserStore } from "@/store/user";
 
 export function ProceedCheckout() {
+  const { user } = useUserStore();
   const { cart } = useCartStore();
   const { initCheckout } = useCheckoutStore();
   const { clearOrder, setProductList, setCustomerId } = useOrderStore();
@@ -16,7 +18,7 @@ export function ProceedCheckout() {
     initCheckout(cart);
     clearOrder();
     setProductList(cart);
-    setCustomerId("2f1134ee-7403-48da-b92c-6b3b8aac3708");
+    setCustomerId(user?.customer.id ?? "");
   };
 
   if (!cart.length) {
