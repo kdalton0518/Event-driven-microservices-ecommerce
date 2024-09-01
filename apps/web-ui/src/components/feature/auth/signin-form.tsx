@@ -38,8 +38,9 @@ export function SigninForm() {
             id="failed-login-customer"
             altText="Try again"
             type="error"
-            children={<span onClick={() => router.refresh()}>Try again</span>}
-          />
+          >
+            <span onClick={() => router.refresh()}>Try again</span>
+          </NotificationToast>
         ),
       });
     },

@@ -32,7 +32,6 @@ export function SignupForm() {
             id="success-register-customer"
             altText="Signup success"
             type="success"
-            children={null}
           />
         ),
       });
@@ -46,8 +45,10 @@ export function SignupForm() {
             id="failed-register-customer"
             altText="Try again"
             type="error"
-            children={<span onClick={() => router.refresh()}>Try again</span>}
-          />
+            
+          >
+            <span onClick={() => router.refresh()}>Try again</span>
+            </NotificationToast>
         ),
       });
     },

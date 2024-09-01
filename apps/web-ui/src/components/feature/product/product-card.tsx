@@ -3,12 +3,13 @@
 import { Card } from "@/components/ui/card";
 import { IProduct } from "@/types/product";
 import { currencyFormatter } from "@/utils/currency-formatter";
+import Image from "next/image";
 
 export default function ProductCard(props: IProduct) {
   return (
     <Card className="hover:shadow-md w-60 h-full">
       <div className="flex flex-col justify-center items-center gap-4 p-4">
-        <img
+        <Image
           className="aspect-square object-cover border border-zinc-200 rounded-lg overflow-hidden hover:opacity-90 transition-opacity dark:border-zinc-800"
           alt={props.name}
           src={props.image_url}

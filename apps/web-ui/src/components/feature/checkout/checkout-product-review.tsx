@@ -3,6 +3,7 @@
 import { Card } from "@/components/ui/card";
 import { useCheckoutStore } from "@/store/checkout";
 import { currencyFormatter } from "@/utils/currency-formatter";
+import Image from "next/image";
 
 export function CheckoutProductReview() {
   const { checkout } = useCheckoutStore();
@@ -24,7 +25,7 @@ export function CheckoutProductReview() {
           key={c.id}
         >
           <div className="flex justify-between md:justify-normal items-center w-full">
-            <img src={c.image_url} alt={c.name} className="w-20" />
+            <Image src={c.image_url} alt={c.name} className="w-20" />
             <div>
               <strong>{c.name}</strong> x {c.quantity}
             </div>

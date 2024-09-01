@@ -2,6 +2,7 @@ import { getProduct } from "@/api/product";
 import { ProductForm } from "@/components/feature/product/product-form";
 import { Separator } from "@/components/ui/separator";
 import { currencyFormatter } from "@/utils/currency-formatter";
+import Image from "next/image";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const data = await getProduct(+params.id);
@@ -27,7 +28,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
       </div>
       <div className="grid gap-3 items-start">
-        <img
+        <Image
           className="aspect-square object-cover border border-zinc-200 w-full rounded-lg overflow-hidden dark:border-zinc-800"
           src={data.image_url}
           alt={data.name}

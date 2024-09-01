@@ -2,7 +2,7 @@
 
 import { Cross1Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
-
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useCartStore } from "@/store/cart";
@@ -16,7 +16,7 @@ export function Cart() {
     return (
       <div className="pt-10 space-y-8 flex flex-col">
         <span>
-          It seems like you don't have any products on your shopping cart yet...
+          It seems like you do not have any products on your shopping cart yet...
         </span>
         <Link href="/">
           <Button>Go back to Home page</Button>
@@ -45,7 +45,7 @@ export function Cart() {
               }}
             />
             <Link href={`/product/${item.id}`}>
-              <img
+              <Image
                 className="aspect-square object-cover border border-zinc-200 rounded-lg overflow-hidden hover:opacity-90 transition-opacity dark:border-zinc-800"
                 alt={item.name}
                 src={item.image_url}
