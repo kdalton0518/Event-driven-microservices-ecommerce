@@ -25,7 +25,14 @@ export function CheckoutProductReview() {
           key={c.id}
         >
           <div className="flex justify-between md:justify-normal items-center w-full">
-            <Image src={c.image_url} alt={c.name} className="w-20" />
+            {/* Add width and height properties to Image */}
+            <Image
+              src={c.image_url}
+              alt={c.name}
+              width={200}  // Adjust the width
+              height={200} // Adjust the height
+              className="w-20"
+            />
             <div>
               <strong>{c.name}</strong> x {c.quantity}
             </div>
